@@ -1,0 +1,326 @@
+##############################################################
+# learning.yml — Learning Hub columns (name is set in glance.yml)
+##############################################################
+
+columns:
+  - size: small
+    widgets:
+      - type: custom-api
+        title: "📚 Learning Plan"
+        cache: 10m
+        url: http://n8n:5678/webhook/learning
+        template: |
+          <div style="font-family:inherit; font-size:1.1rem">
+
+             <!-- Active Phase Card -->
+             <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-left:3px solid var(--color-primary); border-radius:8px; padding:12px 14px; margin-bottom:12px">
+               <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px">
+                 <div>
+                   <div style="opacity:0.45; font-size:1.1rem; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px">Active Phase</div>
+                   <div style="font-size:1.4rem; font-weight:700; line-height:1.2">{{ .JSON.String "active_name" }}</div>
+                   <div style="opacity:0.45; font-size:1.1rem; margin-top:2px">{{ .JSON.String "active_phase" }}</div>
+                 </div>
+                 <div style="background:rgba(var(--color-primary-rgb, 99,179,237),0.15); color:var(--color-primary); font-size:1.1rem; font-weight:600; padding:3px 9px; border-radius:20px; white-space:nowrap">
+                   {{ .JSON.String "active_status" }}
+                 </div>
+               </div>
+
+               <!-- Phase Progress -->
+               <div style="margin-bottom:8px">
+                 <div style="display:flex; justify-content:space-between; margin-bottom:4px">
+                   <span style="opacity:0.5; font-size:1.1rem">Phase Progress</span>
+                   <span style="font-weight:600; font-size:1.1rem; color:var(--color-primary)">{{ .JSON.Int "active_progress" }}%</span>
+                 </div>
+                 <div style="background:rgba(255,255,255,0.08); border-radius:6px; height:7px">
+                   <div style="background:linear-gradient(90deg, var(--color-primary), var(--color-positive)); height:7px; border-radius:6px; width:{{ .JSON.Int "active_progress" }}%; transition:width 0.3s ease"></div>
+                 </div>
+               </div>
+
+               <!-- End Date -->
+               <div style="display:flex; justify-content:space-between; opacity:0.5; font-size:1.1rem">
+                 <span>Target End Date</span>
+                 <span>{{ .JSON.String "active_end_date" }}</span>
+               </div>
+             </div>
+
+             <!-- Overall Progress -->
+             <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:10px 14px; margin-bottom:12px">
+               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+                 <span style="opacity:0.5; font-size:1.1rem; text-transform:uppercase; letter-spacing:0.06em">Overall Progress</span>
+                 <span style="font-weight:700; font-size:1.1rem; color:var(--color-positive)">{{ .JSON.Int "overall_progress" }}%</span>
+               </div>
+               <div style="background:rgba(255,255,255,0.08); border-radius:6px; height:10px">
+                 <div style="background:var(--color-positive); height:10px; border-radius:6px; width:{{ .JSON.Int "overall_progress" }}%"></div>
+               </div>
+             </div>
+
+             <!-- All Phases -->
+             <div style="opacity:0.4; font-size:1.1rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px">All Phases</div>
+             {{ range .JSON.Array "phases" }}
+             <div style="margin-bottom:7px">
+               <div style="display:flex; justify-content:space-between; margin-bottom:3px">
+                 <span style="opacity:0.8; font-size:1.1rem">{{ .String "name" }}</span>
+                 <span style="opacity:0.45; font-size:1.1rem">{{ .Int "progress" }}%</span>
+               </div>
+               <div style="background:rgba(255,255,255,0.07); border-radius:4px; height:4px">
+                 <div style="background:var(--color-primary); opacity:0.7; height:4px; border-radius:4px; width:{{ .Int "progress" }}%"></div>
+               </div>
+             </div>
+             {{ end }}
+
+          </div>
+
+      - type: custom-api
+        title: "🎓 Courses"
+        cache: 5m
+        url: http://n8n:5678/webhook/courses
+        template: |
+          <div style="font-family:inherit; font-size:1.1rem">
+
+            <!-- Current Course Card -->
+            {{ if .JSON.String "current_course.name" }}
+            <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-left:3px solid var(--color-primary); border-radius:8px; padding:12px 14px; margin-bottom:12px">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px">
+                <div>
+                  <div style="opacity:0.45; font-size:1.1rem; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px">Current Course</div>
+                  <div style="font-size:1.3rem; font-weight:700; line-height:1.2">{{ .JSON.String "current_course.name" }}</div>
+                  <div style="opacity:0.45; font-size:1.1rem; margin-top:2px">{{ .JSON.String "current_course.provider" }}</div>
+                </div>
+                <div style="background:rgba(var(--color-primary-rgb, 99,179,237),0.15); color:var(--color-primary); font-size:1.1rem; font-weight:600; padding:3px 9px; border-radius:20px; white-space:nowrap">
+                  {{ .JSON.String "current_course.status" }}
+                </div>
+              </div>
+
+              <div style="margin-bottom:8px">
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px">
+                  <span style="opacity:0.5; font-size:1.1rem">Progress</span>
+                  <span style="font-weight:600; font-size:1.1rem; color:var(--color-primary)">{{ .JSON.Int "current_course.progress" }}%</span>
+                </div>
+                <div style="background:rgba(255,255,255,0.08); border-radius:6px; height:7px">
+                  <div style="background:linear-gradient(90deg, var(--color-primary), var(--color-positive)); height:7px; border-radius:6px; width:{{ .JSON.Int "current_course.progress" }}%; transition:width 0.3s ease"></div>
+                </div>
+                <div style="opacity:0.4; font-size:0.95rem; margin-top:3px; text-align:right">{{ .JSON.String "current_course.time_left" }} of {{ .JSON.String "current_course.est_time" }}</div>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; opacity:0.5; font-size:1.1rem">
+                <span>End Date</span>
+                <span>{{ .JSON.String "current_course.end_date" }}</span>
+              </div>
+            </div>
+            {{ end }}
+
+            <!-- Next Course Card -->
+            {{ if .JSON.String "next_course.name" }}
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:10px 14px; margin-bottom:12px">
+              <div style="display:flex; justify-content:space-between; align-items:center">
+                <div>
+                  <div style="opacity:0.45; font-size:1.1rem; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px">Next Up</div>
+                  <div style="font-size:1.2rem; font-weight:600; line-height:1.2">{{ .JSON.String "next_course.name" }}</div>
+                  <div style="opacity:0.45; font-size:1.1rem">{{ .JSON.String "next_course.provider" }}</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.08); color:var(--color-text); font-size:1.1rem; padding:3px 9px; border-radius:20px; white-space:nowrap">
+                  {{ .JSON.String "next_course.status" }}
+                </div>
+              </div>
+            </div>
+            {{ end }}
+
+            <details>
+            <summary style="opacity:0.4; font-size:1.1rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; cursor:pointer; list-style:none; padding:4px 0">All Courses ▾</summary>
+            {{ range .JSON.Array "courses" }}
+            <div style="margin-bottom:7px">
+              <div style="display:flex; justify-content:space-between; margin-bottom:3px">
+                <span style="opacity:0.8; font-size:1.1rem">{{ .String "name" }}</span>
+                <span style="opacity:0.45; font-size:1.1rem">{{ .Int "progress" }}%</span>
+              </div>
+              <div style="background:rgba(255,255,255,0.07); border-radius:4px; height:4px">
+                <div style="background:var(--color-primary); opacity:0.7; height:4px; border-radius:4px; width:{{ .Int "progress" }}%"></div>
+              </div>
+            </div>
+            {{ end }}
+            </details>
+
+          </div>
+
+      - type: custom-api
+        title: "🔨 Projects"
+        cache: 5m
+        url: http://n8n:5678/webhook/projects
+        template: |
+          <div style="font-family:inherit; font-size:1.1rem">
+
+            <!-- Current Project Card -->
+            {{ if .JSON.String "current_project.name" }}
+            <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-left:3px solid var(--color-positive); border-radius:8px; padding:12px 14px; margin-bottom:12px">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px">
+                <div>
+                  <div style="opacity:0.45; font-size:1.1rem; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px">Current Project</div>
+                  <div style="font-size:1.3rem; font-weight:700; line-height:1.2">{{ .JSON.String "current_project.name" }}</div>
+                  <div style="opacity:0.45; font-size:1.1rem; margin-top:2px">
+                    <span style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; font-size:0.95rem">{{ .JSON.String "current_project.type" }}</span>
+                  </div>
+                </div>
+                <div style="background:rgba(var(--color-positive-rgb, 140,237,170),0.15); color:var(--color-positive); font-size:1.1rem; font-weight:600; padding:3px 9px; border-radius:20px; white-space:nowrap">
+                  {{ .JSON.String "current_project.status" }}
+                </div>
+              </div>
+
+              <div style="margin-bottom:8px">
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px">
+                  <span style="opacity:0.5; font-size:1.1rem">Progress</span>
+                  <span style="font-weight:600; font-size:1.1rem; color:var(--color-positive)">{{ .JSON.Int "current_project.progress" }}%</span>
+                </div>
+                <div style="background:rgba(255,255,255,0.08); border-radius:6px; height:7px">
+                  <div style="background:linear-gradient(90deg, var(--color-positive), var(--color-primary)); height:7px; border-radius:6px; width:{{ .JSON.Int "current_project.progress" }}%; transition:width 0.3s ease"></div>
+                </div>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; opacity:0.5; font-size:1.1rem">
+                <span>End Date</span>
+                <span>{{ .JSON.String "current_project.end_date" }}</span>
+              </div>
+            </div>
+            {{ end }}
+
+            <!-- Next Project Card -->
+            {{ if .JSON.String "next_project.name" }}
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:10px 14px; margin-bottom:12px">
+              <div style="display:flex; justify-content:space-between; align-items:center">
+                <div>
+                  <div style="opacity:0.45; font-size:1.1rem; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px">Next Up</div>
+                  <div style="font-size:1.2rem; font-weight:600; line-height:1.2">{{ .JSON.String "next_project.name" }}</div>
+                  <div style="opacity:0.45; font-size:1.1rem">
+                    <span style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; font-size:0.95rem">{{ .JSON.String "next_project.type" }}</span>
+                  </div>
+                </div>
+                <div style="background:rgba(255,255,255,0.08); color:var(--color-text); font-size:1.1rem; padding:3px 9px; border-radius:20px; white-space:nowrap">
+                  {{ .JSON.String "next_project.status" }}
+                </div>
+              </div>
+            </div>
+            {{ end }}
+
+            <details>
+            <summary style="opacity:0.4; font-size:1.1rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; cursor:pointer; list-style:none; padding:4px 0">All Projects ▾</summary>
+            {{ range .JSON.Array "projects" }}
+            <div style="margin-bottom:7px">
+              <div style="display:flex; justify-content:space-between; margin-bottom:3px">
+                <span style="opacity:0.8; font-size:1.1rem">{{ .String "name" }}</span>
+                <span style="opacity:0.45; font-size:1.1rem">{{ .Int "progress" }}%</span>
+              </div>
+              <div style="background:rgba(255,255,255,0.07); border-radius:4px; height:4px">
+                <div style="background:var(--color-positive); opacity:0.7; height:4px; border-radius:4px; width:{{ .Int "progress" }}%"></div>
+              </div>
+            </div>
+            {{ end }}
+            </details>
+
+          </div>
+
+      - type: bookmarks
+        title: Coding & Frontend
+        groups:
+          - title: Foundations
+            links:
+              - title: The Odin Project — Foundations
+                url: https://www.theodinproject.com/paths/foundations
+                icon: si:theodinproject
+              - title: freeCodeCamp — JS Algorithms
+                url: https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/
+                icon: si:freecodecamp
+              - title: Full Stack Open
+                url: https://fullstackopen.com/en/
+                icon: si:mooc
+          - title: Practice
+            links:
+              - title: LeetCode
+                url: https://leetcode.com
+                icon: si:leetcode
+              - title: CodeWars
+                url: https://www.codewars.com
+                icon: si:codewars
+              - title: Exercism
+                url: https://exercism.org
+                icon: si:exercism
+
+      - type: bookmarks
+        title: DevOps & Cloud
+        groups:
+          - title: Platforms
+            links:
+              - title: AWS Skill Builder
+                url: https://skillbuilder.aws
+                icon: si:amazonwebservices
+              - title: Google Cloud Skills Boost
+                url: https://cloudskillsboost.google
+                icon: si:googlecloud
+              - title: KodeKloud
+                url: https://kodekloud.com
+                icon: sh:kubernetes
+              - title: Play with Docker
+                url: https://labs.play-with-docker.com
+                icon: si:docker
+          - title: References
+            links:
+              - title: Roadmap.sh — DevOps
+                url: https://roadmap.sh/devops
+                icon: si:roadmapdotsh
+              - title: Roadmap.sh — Backend
+                url: https://roadmap.sh/backend
+                icon: si:roadmapdotsh
+              - title: Linux Journey
+                url: https://linuxjourney.com
+                icon: si:linux
+
+  - size: full
+    widgets:
+      - type: rss
+        title: Security & DevOps News
+        limit: 12
+        collapse-after: 5
+        cache: 4h
+        feeds:
+          - url: https://feeds.feedburner.com/TheHackersNews
+            title: The Hacker News
+          - url: https://www.cncf.io/feed/
+            title: CNCF Blog
+          - url: https://www.docker.com/blog/feed/
+            title: Docker Blog
+          - url: https://about.gitlab.com/atom.xml
+            title: GitLab Blog
+
+      - type: rss
+        title: "📺 DevOps & Cloud"
+        limit: 8
+        collapse-after: 4
+        cache: 2h
+        feeds:
+          - url: https://changelog.com/feed
+            title: Changelog Podcast
+          - url: https://about.gitlab.com/atom.xml
+            title: GitLab Blog
+          - url: https://www.cncf.io/feed/
+            title: CNCF Blog
+
+  - size: small
+    widgets:
+      - type: releases
+        title: Tools to Watch
+        cache: 12h
+        repositories:
+          - microsoft/vscode
+          - nodejs/node
+          - docker/docker-ce
+          - kubernetes/kubernetes
+          - n8n-io/n8n
+          - anthropics/anthropic-sdk-python
+
+      - type: reddit
+        subreddit: learnprogramming
+        limit: 8
+        collapse-after: 4
+
+      - type: reddit
+        subreddit: devops
+        limit: 8
+        collapse-after: 4

@@ -1,0 +1,12 @@
+##############################################################
+# tasks.yml — Tasks / TODO Manager Page
+# Uses iframe to embed the task-app React application
+##############################################################
+
+columns:
+  - size: full
+    widgets:
+      - type: iframe
+        source: http://localhost:3100/task-app/
+        height: 900
+        title: "Tasks"

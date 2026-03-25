@@ -1,0 +1,53 @@
+##############################################################
+# glance.yml — Main Configuration File
+# Entry point: theme, server settings, and page includes
+##############################################################
+
+server:
+  port: 8080
+  assets-path: /app/assets
+  auth:
+    github-token: ${GITHUB_TOKEN}
+  proxy:
+    - source: /task-api
+      target: http://localhost:3100
+
+theme:
+  background-color: 225 16 10
+  primary-color: 217 92 83
+  positive-color: 145 70 55
+  negative-color: 0 75 55
+  contrast-multiplier: 1.1
+  presets:
+    dark-ocean:
+      background-color: 220 25 10
+      primary-color: 199 89 60
+      positive-color: 160 60 45
+      negative-color: 0 70 60
+    hacker-green:
+      background-color: 130 30 5
+      primary-color: 120 100 40
+      positive-color: 120 80 40
+      negative-color: 0 70 60
+
+pages:
+  - name: Home
+    $include: pages/home.yml
+
+  - name: Learning
+    $include: pages/learning.yml
+
+  - name: Content
+    $include: pages/content.yml
+
+  - name: DevOps
+    $include: pages/devops.yml
+
+  - name: AI Assistant
+    $include: pages/ai-assistant.yml
+
+  - name: Focus
+    $include: pages/focus.yml
+
+  - name: Tasks
+    $include: pages/tasks.yml

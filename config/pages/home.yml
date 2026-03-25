@@ -1,0 +1,129 @@
+##############################################################
+# home.yml — Home Page columns (name is set in glance.yml)
+##############################################################
+
+columns:
+  # ── LEFT COLUMN ──────────────────────────────────────
+  - size: small
+    widgets:
+      - type: clock
+        hour-format: 24h
+        title: "🕐 Time"
+        timezones:
+            - timezone: Africa/Casablanca
+              label: Rabat
+            - timezone: Europe/Paris
+              label: Paris
+            - timezone: America/New_York
+              label: New York
+            - timezone: Asia/Dubai
+              label: Dubai
+
+      - type: weather
+        title: "🌤️ Rabat Weather"
+        location: Rabat, Morocco
+        units: metric
+        hour-format: 24h
+
+      - type: calendar
+        title: "📅 Calendar"
+        first-day-of-week: monday
+
+      - type: bookmarks
+        title: Quick Links
+        groups:
+          - title: Learning
+            links:
+              - title: The Odin Project
+                url: https://www.theodinproject.com
+                icon: si:theodinproject
+              - title: Full Stack Open
+                url: https://fullstackopen.com
+                icon: si:mooc
+              - title: freeCodeCamp
+                url: https://www.freecodecamp.org
+                icon: si:freecodecamp
+              - title: Coursera
+                url: https://www.coursera.org
+                icon: si:coursera
+          - title: Dev Tools
+            links:
+              - title: GitHub
+                url: https://github.com
+                icon: si:github
+              - title: n8n Cloud
+                url: http://localhost:5678/home/workflows
+                icon: si:n8n
+              - title: Notion
+                url: https://notion.so
+                icon: si:notion
+  # ── MIDDLE COLUMN ────────────────────────────────────
+  - size: full
+    widgets:
+      - type: search
+        title: "🔍 Search"
+        search-engine: google
+        bangs:
+          - title: GitHub
+            shortcut: "!gh"
+            url: https://github.com/search?q={QUERY}
+          - title: Docker Hub
+            shortcut: "!dh"
+            url: https://hub.docker.com/search?q={QUERY}
+          - title: Stack Overflow
+            shortcut: "!so"
+            url: https://stackoverflow.com/search?q={QUERY}
+          - title: MDN Docs
+            shortcut: "!mdn"
+            url: https://developer.mozilla.org/en-US/search?q={QUERY}
+          - title: AWS Docs
+            shortcut: "!aws"
+            url: https://docs.aws.amazon.com/search/doc-search.html?searchPath=documentation&searchQuery={QUERY}
+          - title: YouTube
+            shortcut: "!yt"
+            url: https://www.youtube.com/results?search_query={QUERY}
+
+      - type: rss
+        title: "📺 Tech Blogs"
+        limit: 8
+        collapse-after: 4
+        cache: 2h
+        feeds:
+          - url: https://www.joshwcomeau.com/rss.xml
+            title: Josh Comeau
+          - url: https://martinfowler.com/feed.atom
+            title: Martin Fowler
+          - url: https://netflixtechblog.com/feed
+            title: Netflix Tech Blog
+
+      - type: group
+        widgets:
+          - type: reddit
+            subreddit: programming
+            show-thumbnails: true
+          - type: reddit
+            subreddit: selfhosted
+            show-thumbnails: true
+
+  - size: small
+    widgets:
+      - type: hacker-news
+        limit: 10
+        collapse-after: 5
+
+      - type: rss
+        title: Dev Blogs
+        limit: 10
+        collapse-after: 4
+        cache: 6h
+        feeds:
+          - url: https://www.joshwcomeau.com/rss.xml
+            title: Josh Comeau
+          - url: https://css-tricks.com/feed/
+            title: CSS-Tricks
+          - url: https://martinfowler.com/feed.atom
+            title: Martin Fowler
+          - url: https://blog.cloudflare.com/rss/
+            title: Cloudflare Blog
+          - url: https://netflixtechblog.com/feed
+            title: Netflix Tech Blog
