@@ -1,0 +1,144 @@
+##############################################################
+# docker-compose.yml — Life_OS_v2
+# Run with: docker compose up -d
+##############################################################
+
+services:
+
+  glance:
+    container_name: Life_OS
+    image: glanceapp/glance:latest
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    env_file:
+      - secrets/.env.production
+    restart: unless-stopped
+    volumes:
+      - ./config:/app/config
+      - ./frontend:/app/assets
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 8090:8080
+    depends_on:
+      - notion-proxy
+      - pomodoro
+      - task-api
+    networks:
+      - life-os
+
+  notion-proxy:
+    container_name: notion-proxy
+    image: node:20-alpine
+    env_file:
+      - secrets/.env.production
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./backend/notion-proxy:/app
+    command: node server.js
+    ports:
+      - 3456:3456
+    networks:
+      - life-os
+
+  n8n:
+    container_name: n8n
+    image: docker.n8n.io/n8nio/n8n
+    env_file:
+      - secrets/.env.production
+    restart: unless-stopped
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    ports:
+      - 5678:5678
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678
+      - GENERIC_TIMEZONE=Africa/Casablanca
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - life-os
+
+  ai-assistant:
+    container_name: ai-assistant
+    image: node:20-alpine
+    env_file:
+      - secrets/.env.production
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./backend/ai-assistant:/app
+      - ai-assistant_data:/app/data
+    command: sh -c "npm install sqlite3 && node server.js"
+    ports:
+      - 3700:3700
+    environment:
+      - OLLAMA_HOST=host.docker.internal
+      - OLLAMA_PORT=11434
+      - AI_ASSISTANT_DB_PATH=/app/data/conversations.db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - life-os
+
+  pomodoro:
+    container_name: pomodoro
+    image: node:20-alpine
+    env_file:
+      - secrets/.env.production
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./backend/pomodoro/server.js:/app/server.js
+      - ./frontend/pages/pomodoro-app/dist:/app/dist
+    command: node server.js
+    ports:
+      - 3800:3800
+    networks:
+      - life-os
+
+  task-api:
+    container_name: task-api
+    image: node:20-slim
+    env_file:
+      - secrets/.env.production
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./backend/task-api:/app
+      - ./backend/shared:/app/assets
+      - ./frontend/pages/task-app:/app/assets/task-app
+    command: sh -c "apt-get update && apt-get install -y python3 make g++ && npm install --build-from-source && npm start"
+    ports:
+      - 3100:3100
+    environment:
+      - NODE_ENV=production
+      - TASK_API_PORT=3100
+    networks:
+      - life-os
+
+  youtube-proxy:
+    container_name: youtube-proxy
+    image: node:20-alpine
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./backend/youtube-proxy:/app
+    command: node server.js
+    ports:
+      - 3704:3704
+    networks:
+      - life-os
+
+networks:
+  life-os:
+    driver: bridge
+
+volumes:
+  n8n_data:
+  ai-assistant_data:
