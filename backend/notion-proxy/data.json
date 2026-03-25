@@ -1,0 +1,22 @@
+{
+  "phases": [
+    { "name": "Coding",             "phase": "1 - Introduction", "status": "In Progress", "progress": 45, "end_date": "2026-04-15" },
+    { "name": "Development",        "phase": "2 - Fundamentals", "status": "Not Started",  "progress": 0,  "end_date": "2026-06-01" },
+    { "name": "Software Practices", "phase": "3 - Application",  "status": "Not Started",  "progress": 0,  "end_date": "2026-07-15" },
+    { "name": "System Design",      "phase": "4 - Integration",  "status": "Not Started",  "progress": 0,  "end_date": "2026-09-01" },
+    { "name": "Advanced Topics",    "phase": "5 - Mastery",      "status": "Not Started",  "progress": 0,  "end_date": "2026-10-15" },
+    { "name": "Buffer/Review",      "phase": "Review",           "status": "Not Started",  "progress": 0,  "end_date": "2026-11-01" }
+  ],
+  "courses": [
+    { "name": "Python for Data Science", "provider": "Coursera", "status": "In Progress", "progress": 65, "end_date": "2026-04-30" },
+    { "name": "AWS Certified Solutions Architect", "provider": "AWS Skill Builder", "status": "Upcoming", "progress": 0, "end_date": "2026-06-15" },
+    { "name": "Advanced Kubernetes", "provider": "Udemy", "status": "Upcoming", "progress": 0, "end_date": "2026-07-01" },
+    { "name": "System Design Mastery", "provider": "Interview Kickstart", "status": "Upcoming", "progress": 0, "end_date": "2026-08-15" }
+  ],
+  "projects": [
+    { "name": "Personal Portfolio", "type": "Web", "status": "In Progress", "progress": 70, "end_date": "2026-03-31" },
+    { "name": "CLI Task Manager", "type": "CLI", "status": "Upcoming", "progress": 0, "end_date": "2026-04-15" },
+    { "name": "Weather Dashboard", "type": "Web", "status": "Upcoming", "progress": 0, "end_date": "2026-05-01" },
+    { "name": "Mobile Fitness App", "type": "App", "status": "Upcoming", "progress": 0, "end_date": "2026-06-30" }
+  ]
+}
