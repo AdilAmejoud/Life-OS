@@ -1,0 +1,14 @@
+##############################################################
+# task-page.yml — Tasks Page Configuration
+# Uses custom-api to embed the React task app via iframe
+##############################################################
+
+columns:
+  - size: full
+    widgets:
+      - type: iframe
+        source: http://localhost:4173/
+        height: 900
+        title: "Tasks"
+        allow-scripts: true
+        allow-same-origin: true

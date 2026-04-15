@@ -1,0 +1,116 @@
+##############################################################
+# devops.yml — DevOps columns (name is set in glance.yml)
+##############################################################
+
+columns:
+  - size: small
+    widgets:
+      - type: server-stats
+        # Displays CPU, memory, and disk usage of the host machine
+
+      - type: bookmarks
+        title: Infrastructure Tools
+        groups:
+          - title: Container & Orchestration
+            links:
+              - title: Docker Hub
+                url: https://hub.docker.com
+                icon: si:docker
+              - title: Kubernetes Docs
+                url: https://kubernetes.io/docs/home/
+                icon: si:kubernetes
+              - title: Helm Charts
+                url: https://artifacthub.io
+                icon: si:helm
+          - title: CI/CD
+            links:
+              - title: GitHub Actions
+                url: https://github.com/features/actions
+                icon: si:githubactions
+              - title: GitLab CI Docs
+                url: https://docs.gitlab.com/ee/ci/
+                icon: si:gitlab
+          - title: Cloud Consoles
+            links:
+              - title: AWS Console
+                url: https://console.aws.amazon.com
+                icon: si:amazonwebservices
+              - title: GCP Console
+                url: https://console.cloud.google.com
+                icon: si:googlecloud
+              - title: Azure Portal
+                url: https://portal.azure.com
+                icon: si:microsoftazure
+          - title: Monitoring & Automation
+            links:
+              - title: n8n
+                url: https://app.n8n.cloud
+                icon: si:n8n
+              - title: Grafana Cloud
+                url: https://grafana.com
+                icon: si:grafana
+              - title: Uptime Kuma (Self-hosted)
+                url: http://localhost:3001
+                icon: sh:uptime-kuma
+
+  - size: full
+    widgets:
+      # Uncomment and configure after deploying Docker locally
+      # - type: docker-containers
+      #   title: Running Containers
+      #   socket: /var/run/docker.sock
+
+      - type: rss
+        title: Infrastructure & Cloud News
+        limit: 12
+        collapse-after: 5
+        cache: 4h
+        feeds:
+          - url: https://kubernetes.io/feed.xml
+            title: Kubernetes Blog
+          - url: https://www.docker.com/blog/feed/
+            title: Docker Blog
+          - url: https://aws.amazon.com/blogs/aws/feed/
+            title: AWS Blog
+          - url: https://cloud.google.com/blog/rss/
+            title: Google Cloud Blog
+          - url: https://azure.microsoft.com/en-us/blog/feed/
+            title: Azure Blog
+          - url: https://about.gitlab.com/atom.xml
+            title: GitLab Blog
+
+      - type: rss
+        title: "📺 Cloud & Infrastructure"
+        limit: 8
+        collapse-after: 4
+        cache: 2h
+        feeds:
+          - url: https://aws.amazon.com/blogs/aws/feed/
+            title: AWS Blog
+          - url: https://www.cncf.io/feed/
+            title: CNCF Blog
+          - url: https://about.gitlab.com/atom.xml
+            title: GitLab Blog
+
+  - size: small
+    widgets:
+      - type: releases
+        title: DevOps Releases
+        cache: 12h
+        repositories:
+          - docker/compose
+          - kubernetes/kubernetes
+          - helm/helm
+          - grafana/grafana
+          - prometheus/prometheus
+          - n8n-io/n8n
+
+      - type: reddit
+        subreddit: devops
+        limit: 8
+        collapse-after: 4
+
+      - type: reddit
+        subreddit: kubernetes
+        limit: 8
+        collapse-after: 4

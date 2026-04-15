@@ -1,0 +1,106 @@
+##############################################################
+# content.yml — CoderVerse columns (name is set in glance.yml)
+##############################################################
+
+columns:
+  - size: small
+    widgets:
+      - type: bookmarks
+        title: CoderVerse Platforms
+        groups:
+          - title: Publish
+            links:
+              - title: YouTube Studio
+                url: https://studio.youtube.com
+                icon: si:youtube
+              - title: Instagram Creator Studio
+                url: https://www.instagram.com/creator/studio/
+                icon: si:instagram
+              - title: LinkedIn Dashboard
+                url: https://www.linkedin.com/in/me/
+                icon: si:linkedin
+          - title: Research & Analytics
+            links:
+              - title: YouTube Analytics
+                url: https://studio.youtube.com/channel/analytics
+                icon: si:youtube
+              - title: TubeBuddy
+                url: https://www.tubebuddy.com
+                icon: si:youtube
+              - title: vidIQ
+                url: https://vidiq.com/dashboard
+                icon: si:youtube
+              - title: Google Trends
+                url: https://trends.google.com/trends/explore?cat=13
+                icon: si:google
+          - title: Design & Assets
+            links:
+              - title: Canva
+                url: https://canva.com
+                icon: si:canva
+              - title: Carbon (Code Screenshots)
+                url: https://carbon.now.sh
+                icon: si:carbon
+              - title: Shields.io (Badges)
+                url: https://shields.io
+                icon: sh:github
+
+      - type: rss
+        title: Content Creator Tips
+        limit: 8
+        collapse-after: 4
+        cache: 8h
+        feeds:
+          - url: https://rss.beehiiv.com/feeds/mFWODpjG1K.xml
+            title: Creator Economy
+          - url: https://www.creativebloq.com/feeds/all.xml
+            title: Creative Bloq
+
+  - size: full
+    widgets:
+      - type: rss
+        title: "📺 Creator & Dev Blogs"
+        limit: 8
+        collapse-after: 4
+        cache: 2h
+        feeds:
+          - url: https://www.smashingmagazine.com/feed/
+            title: Smashing Magazine
+          - url: https://thenewstack.io/feed/
+            title: The New Stack
+          - url: https://css-tricks.com/feed/
+            title: CSS-Tricks
+
+      - type: group
+        widgets:
+          - type: reddit
+            subreddit: youtubers
+            limit: 8
+            collapse-after: 4
+          - type: reddit
+            subreddit: webdev
+            show-thumbnails: true
+            limit: 8
+            collapse-after: 4
+
+  - size: small
+    widgets:
+      - type: rss
+        title: Dev Trends (Content Ideas)
+        limit: 12
+        collapse-after: 5
+        cache: 3h
+        feeds:
+          - url: https://dev.to/feed
+            title: DEV.to
+          - url: https://hashnode.com/n/general/rss.xml
+            title: Hashnode
+          - url: https://bytes.dev/rss.xml
+            title: Bytes (JS Weekly)
+          - url: https://tldr.tech/api/rss/webdev
+            title: TLDR Web Dev
+
+      - type: hacker-news
+        title: HN — Trending Tech
+        limit: 8
+        collapse-after: 4

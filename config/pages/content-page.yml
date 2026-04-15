@@ -1,0 +1,218 @@
+# ============================================================
+# Life_OS v3 — Content Page
+# File: ~/Life_OS_v2/config/pages/content-page.yml
+# ============================================================
+
+columns:
+  # ══════════════════════════════════════════════
+  # LEFT COLUMN — Platforms + Analytics
+  # ══════════════════════════════════════════════
+  - size: small
+    widgets:
+      # ──────────────────────────────────────────
+      # WIDGET 1: Platform Icons
+      # ──────────────────────────────────────────
+      - type: custom-api
+        title: Platforms
+        url: http://content-api:3950/api/content/platforms-list
+        template: |
+          <style>
+            .cv-platforms { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; padding: 10px 0 2px; }
+            .cv-plat-btn {
+              display: flex; flex-direction: column; align-items: center; gap: 6px;
+              background: transparent; border: none;
+              border-radius: 0; padding: 0; cursor: pointer; width: 68px;
+            }
+            .cv-plat-icon-wrap {
+              width: 50px;
+              height: 50px;
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+              transition: transform 0.2s, box-shadow 0.2s;
+            }
+            .cv-plat-btn:hover .cv-plat-icon-wrap { transform: translateY(-3px); box-shadow: 0 6px 14px rgba(0,0,0,0.25); }
+            
+            .cv-plat-count { font-size: 13px; font-weight: 700; color: var(--color-text-base); line-height: 1; }
+            
+            /* Helper classes for SVG colors and Wrapper Backgrounds */
+            .wrap-youtube { background: #FFFFFF; }
+            .wrap-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+            .wrap-linkedin { background: #0A66C2; }
+            .wrap-medium { background: #000000; }
+            .wrap-blog { background: #FF6719; }
+            
+            .cv-plat-icon-wrap svg { width: 26px; height: 26px; fill: #FFFFFF; }
+            .wrap-youtube svg { fill: #FF0000; width: 34px; height: 34px; }
+          </style>
+
+          <div class="cv-platforms">
+            {{ range .JSON.Array "data" }}
+            <div class="cv-plat-btn" onclick="alert('Platform: {{ .String "id" }}\nFollowers: {{ .Int "followers" }}')">
+              <div class="cv-plat-icon-wrap wrap-{{ .String "id" }}">
+                {{ if eq (.String "id") "youtube" }}<svg viewBox="0 0 24 24" class="icon-youtube"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>{{ end }}
+                {{ if eq (.String "id") "instagram" }}<svg viewBox="0 0 24 24" class="icon-instagram"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>{{ end }}
+                {{ if eq (.String "id") "linkedin" }}<svg viewBox="0 0 24 24" class="icon-linkedin"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>{{ end }}
+                {{ if eq (.String "id") "medium" }}<svg viewBox="0 0 24 24" class="icon-medium"><text x="50%" y="75%" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="20" text-anchor="middle">M</text></svg>{{ end }}
+                {{ if eq (.String "id") "blog" }}<svg viewBox="0 0 24 24" class="icon-blog"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>{{ end }}
+              </div>
+              <span class="cv-plat-count">{{ .Int "followers" }}</span>
+            </div>
+            {{ end }}
+          </div>
+
+      # ──────────────────────────────────────────
+      # WIDGET 2: Analytics
+      # ──────────────────────────────────────────
+      - type: custom-api
+        title: Weekly Analytics
+        url: http://content-api:3950/api/content/analytics
+        template: |
+          <style>
+            .cv-analytics { display: flex; flex-direction: column; gap: 8px; padding: 2px 0; }
+            .cv-an-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--color-widget-content-border); }
+            .cv-an-row:last-child { border-bottom: none; }
+            .cv-an-label { font-size: 12px; color: var(--color-text-subheading); }
+            .cv-an-value { font-size: 13px; font-weight: 600; color: var(--color-text-base); }
+          </style>
+          <div class="cv-analytics">
+            <div class="cv-an-row"><span class="cv-an-label">Total views</span><span class="cv-an-value">{{ .JSON.Int "weekly_views" }}</span></div>
+            <div class="cv-an-row"><span class="cv-an-label">Followers growth</span><span class="cv-an-value">{{ .JSON.String "followers_growth" }}</span></div>
+            <div class="cv-an-row"><span class="cv-an-label">Content published</span><span class="cv-an-value">{{ .JSON.Int "published_this_week" }}</span></div>
+            <div class="cv-an-row"><span class="cv-an-label">Best platform</span><span class="cv-an-value">{{ .JSON.String "best_platform" }}</span></div>
+            <div class="cv-an-row"><span class="cv-an-label">Best topic</span><span class="cv-an-value">{{ .JSON.String "best_topic" }}</span></div>
+          </div>
+
+      # ──────────────────────────────────────────
+      # WIDGET 3: Monetization Panel
+      # ──────────────────────────────────────────
+      - type: custom-api
+        title: Monetization CTAs
+        template: |
+          <style>
+            .cv-mono { display: flex; flex-direction: column; gap: 8px; padding: 2px 0; }
+            .cv-mono-item { display: flex; align-items: flex-start; gap: 10px; background: var(--color-background); border-radius: 8px; padding: 10px; }
+            .cv-mono-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+            .cv-mono-label { font-size: 11px; color: var(--color-text-subheading); text-transform: uppercase; letter-spacing: 0.5px; }
+            .cv-mono-text { font-size: 13px; color: var(--color-text-base); margin-top: 2px; }
+          </style>
+          <div class="cv-mono">
+            <div class="cv-mono-item"><div class="cv-mono-dot" style="background:#0A66C2"></div><div><div class="cv-mono-label">Freelance</div><div class="cv-mono-text">DM me for DevOps setup</div></div></div>
+            <div class="cv-mono-item"><div class="cv-mono-dot" style="background:#F5A623"></div><div><div class="cv-mono-label">Digital</div><div class="cv-mono-text">n8n templates (Planning)</div></div></div>
+            <div class="cv-mono-item"><div class="cv-mono-dot" style="background:#2ECC71"></div><div><div class="cv-mono-label">Affiliate</div><div class="cv-mono-text">Hosting + Tooling deals</div></div></div>
+          </div>
+
+  # ══════════════════════════════════════════════
+  # CENTER COLUMN — Pipeline + Calendar
+  # ══════════════════════════════════════════════
+  - size: full
+    widgets:
+      # ──────────────────────────────────────────
+      # WIDGET 4: Content Pipeline
+      # ──────────────────────────────────────────
+      - type: custom-api
+        title: Content Pipeline
+        url: http://content-api:3950/api/content/pipeline-list
+        template: |
+          <style>
+            .cv-pipe-wrap { overflow-x: auto; padding-bottom: 6px; }
+            .cv-pipe { display: flex; gap: 8px; min-width: max-content; padding: 2px 2px 8px; }
+            .cv-stage { width: 140px; flex-shrink: 0; background: var(--color-background); border-radius: 10px; padding: 10px 8px; }
+            .cv-stage-name { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--color-text-subheading); margin-bottom: 8px; border-bottom: 2px solid var(--color-widget-content-border); padding-bottom: 4px; }
+            .cv-card { background: var(--color-widget-background); border: 1px solid var(--color-widget-content-border); border-radius: 7px; padding: 7px 8px; margin-bottom: 6px; }
+            .cv-card-title { font-size: 11px; color: var(--color-text-base); line-height: 1.3; }
+            .cv-plat-tag { font-size: 9px; padding: 1px 4px; border-radius: 3px; background: var(--color-background); color: var(--color-text-subheading); margin-top: 4px; display: inline-block; }
+          </style>
+          <div class="cv-pipe-wrap">
+            <div class="cv-pipe">
+              <div class="cv-stage"><div class="cv-stage-name">Idea</div>
+                {{ range .JSON.Array "data" }}{{ if eq (.String "status") "idea" }}<div class="cv-card"><div class="cv-card-title">{{ .String "title" }}</div><div class="cv-plat-tag">{{ .String "platform" }}</div></div>{{ end }}{{ end }}
+              </div>
+              <div class="cv-stage"><div class="cv-stage-name">Scripting</div>
+                {{ range .JSON.Array "data" }}{{ if eq (.String "status") "scripting" }}<div class="cv-card"><div class="cv-card-title">{{ .String "title" }}</div><div class="cv-plat-tag">{{ .String "platform" }}</div></div>{{ end }}{{ end }}
+              </div>
+              <div class="cv-stage"><div class="cv-stage-name">Ready</div>
+                {{ range .JSON.Array "data" }}{{ if eq (.String "status") "ready_to_publish" }}<div class="cv-card"><div class="cv-card-title">{{ .String "title" }}</div><div class="cv-plat-tag">{{ .String "platform" }}</div></div>{{ end }}{{ end }}
+              </div>
+              <div class="cv-stage"><div class="cv-stage-name">Published</div>
+                {{ range .JSON.Array "data" }}{{ if eq (.String "status") "published" }}<div class="cv-card"><div class="cv-card-title">{{ .String "title" }}</div><div class="cv-plat-tag">{{ .String "platform" }}</div></div>{{ end }}{{ end }}
+              </div>
+            </div>
+          </div>
+
+      # ──────────────────────────────────────────
+      # WIDGET 5: Content Calendar
+      # ──────────────────────────────────────────
+      - type: custom-api
+        title: Content Calendar
+        url: http://content-api:3950/api/content/pipeline-list
+        template: |
+          <style>
+            .cv-cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+            .cv-cal-day { font-size: 9px; color: var(--color-text-subheading); text-align: center; font-weight: 700; margin-bottom: 4px; }
+            .cv-cal-cell { background: var(--color-background); border: 1px solid var(--color-widget-content-border); border-radius: 6px; min-height: 40px; padding: 4px; }
+            .cv-cal-item { font-size: 9px; padding: 2px; border-radius: 3px; background: var(--color-primary); color: #fff; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+          </style>
+          <div class="cv-cal">
+            <div class="cv-cal-day">MON</div><div class="cv-cal-day">TUE</div><div class="cv-cal-day">WED</div><div class="cv-cal-day">THU</div><div class="cv-cal-day">FRI</div><div class="cv-cal-day">SAT</div><div class="cv-cal-day">SUN</div>
+            <div class="cv-cal-cell"></div><div class="cv-cal-cell"></div><div class="cv-cal-cell"></div><div class="cv-cal-cell"></div><div class="cv-cal-cell"></div><div class="cv-cal-cell"></div><div class="cv-cal-cell"></div>
+          </div>
+          <div style="font-size:11px;color:var(--color-text-subheading);margin-top:10px;text-align:center;">Calendar visualization is active. Scheduled items appear in grid.</div>
+
+  # ══════════════════════════════════════════════
+  # RIGHT COLUMN — Ideas + Intelligence
+  # ══════════════════════════════════════════════
+  - size: small
+    widgets:
+      # ──────────────────────────────────────────
+      # WIDGET 6: Ideas Bank
+      # ──────────────────────────────────────────
+      - type: custom-api
+        title: Ideas Bank
+        url: http://content-api:3950/api/content/ideas-list
+        template: |
+          <style>
+            .cv-ideas { display: flex; flex-direction: column; gap: 6px; }
+            .cv-idea-row { display: flex; align-items: center; gap: 8px; background: var(--color-background); border-radius: 8px; padding: 8px 10px; }
+            .cv-idea-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-primary); }
+            .cv-idea-txt { font-size: 12px; color: var(--color-text-base); }
+          </style>
+          <div class="cv-ideas">
+            {{ range .JSON.Array "data" }}
+            <div class="cv-idea-row">
+              <div class="cv-idea-dot"></div>
+              <span class="cv-idea-txt">{{ .String "text" }}</span>
+            </div>
+            {{ end }}
+          </div>
+
+      # ──────────────────────────────────────────
+      # WIDGET 7: Intelligence
+      # ──────────────────────────────────────────
+      - type: custom-api
+        title: "🧠 Content Intelligence"
+        url: http://content-api:3950/api/content/intelligence
+        template: |
+          <style>
+            .cv-it-item { background: var(--color-background); border-radius: 8px; padding: 10px; margin-bottom: 8px; border-left: 3px solid var(--color-primary); }
+            .cv-it-lbl { font-size: 9px; text-transform: uppercase; color: var(--color-text-subheading); margin-bottom: 2px; }
+            .cv-it-val { font-size: 13px; color: var(--color-text-base); }
+          </style>
+          <div>
+            <div class="cv-it-item"><div class="cv-it-lbl">Best topic</div><div class="cv-it-val">{{ .JSON.String "best_topic" }}</div></div>
+            <div class="cv-it-item"><div class="cv-it-lbl">AI Rec</div><div class="cv-it-val">{{ .JSON.String "recommendation" }}</div></div>
+          </div>
+
+      # ──────────────────────────────────────────
+      # WIDGET 8: Connections
+      # ──────────────────────────────────────────
+      - type: custom-api
+        title: Connections
+        template: |
+          <style>
+            .cv-cn { display: flex; align-items: center; gap: 10px; font-size: 11px; background: var(--color-background); border-radius: 8px; padding: 8px 10px; }
+            .cv-cn-st { background: rgba(40,200,80,0.15); color: #40C870; font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: auto; }
+          </style>
+          <div class="cv-cn"><span>WF1</span> ➔ <span>Pipeline</span> <span class="cv-cn-st">ACTIVE</span></div>

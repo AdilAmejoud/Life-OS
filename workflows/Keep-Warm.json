@@ -1,0 +1,121 @@
+{
+    "name": "Keep Warm — Webhooks",
+    "nodes": [
+        {
+            "parameters": {
+                "url": "http://localhost:5678/webhook/learning",
+                "options": {
+                    "timeout": 30000
+                }
+            },
+            "id": "001f1740-2a4a-47cf-a6b5-fcba183c9c37",
+            "name": "Warm Learning",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                240,
+                0
+            ]
+        },
+        {
+            "parameters": {
+                "url": "http://localhost:5678/webhook/courses",
+                "options": {
+                    "timeout": 30000
+                }
+            },
+            "id": "6d0c20fc-6795-4250-ae8a-7a779822f3df",
+            "name": "Warm Courses",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                464,
+                0
+            ]
+        },
+        {
+            "parameters": {
+                "url": "http://localhost:5678/webhook/projects",
+                "options": {
+                    "timeout": 30000
+                }
+            },
+            "id": "e6d9245e-9f67-409c-a79e-d466a33fe676",
+            "name": "Warm Projects",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                672,
+                0
+            ]
+        },
+        {
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "field": "minutes",
+                            "minutesInterval": 1
+                        }
+                    ]
+                }
+            },
+            "id": "bf922adf-1d7e-488f-8d51-65041067875d",
+            "name": "Every 1 Minutes",
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1.2,
+            "position": [
+                0,
+                0
+            ]
+        }
+    ],
+    "pinData": {},
+    "connections": {
+        "Warm Learning": {
+            "main": [
+                [
+                    {
+                        "node": "Warm Courses",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Warm Courses": {
+            "main": [
+                [
+                    {
+                        "node": "Warm Projects",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Every 1 Minutes": {
+            "main": [
+                [
+                    {
+                        "node": "Warm Learning",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "active": true,
+    "settings": {
+        "executionOrder": "v1",
+        "binaryMode": "separate",
+        "availableInMCP": false
+    },
+    "versionId": "7a1d0fc7-e027-4a7b-87fc-cce98bf672ac",
+    "meta": {
+        "instanceId": "cb5fd9a9ab4865e202132b20d8364701643975f47bfa03b9c76cb4d0ed1afdd1"
+    },
+    "id": "81XflVrCKFmXQV1x",
+    "tags": []
+}

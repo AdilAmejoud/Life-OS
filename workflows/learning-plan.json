@@ -1,0 +1,133 @@
+{
+    "name": "Notion Learning Plan → Glance",
+    "nodes": [
+        {
+            "parameters": {
+                "path": "learning",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "15c15cfa-7bb4-42b5-bffd-dd8c8fb60281",
+            "name": "Webhook",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 2,
+            "position": [
+                48,
+                -96
+            ],
+            "webhookId": "learning-plan"
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://api.notion.com/v1/databases/2466914a68328083a576cc791fb27c2e/query",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "value": "Bearer YOUR_NOTION_API_KEY"
+                        },
+                        {
+                            "name": "Notion-Version",
+                            "value": "2022-06-28"
+                        },
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": []
+                },
+                "options": {}
+            },
+            "id": "3dd91f08-55a0-47bb-8344-2be6aedd84d6",
+            "name": "Query Notion",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                288,
+                -96
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "const results = $input.first().json.results || [];\n\nconst phases = results.map(page => {\n  const props = page.properties;\n  const name = props['Phases']?.title?.[0]?.plain_text ?? 'Untitled';\n  const phase = props['Phase']?.multi_select?.[0]?.name ?? '—';\n  const status = props['Status']?.status?.name ?? 'Not Started';\n  const end_date = props['End Date']?.date?.start ?? '—';\n\n  // Parse number from formula string like \"🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜ 45%\"\n  const cpRaw = props['Completion Percentage']?.formula?.string ?? '';\n  const match = cpRaw.match(/(\\d+)%/);\n  const progress = match ? parseInt(match[1]) : 0;\n\n  return { name, phase, status, progress, end_date };\n});\n\nconst avg = phases.length\n  ? Math.round(phases.reduce((s, p) => s + p.progress, 0) / phases.length)\n  : 0;\n\nconst active = phases.find(p => p.status === 'In Progress')\n  ?? phases.find(p => p.progress > 0 && p.progress < 100)\n  ?? phases[0]\n  ?? { name: '—', phase: '—', progress: 0, status: '—', end_date: '—' };\n\nreturn [{\n  json: {\n    overall_progress: avg,\n    active_name: active.name,\n    active_phase: active.phase,\n    active_progress: active.progress,\n    active_status: active.status,\n    active_end_date: active.end_date,\n    phases: phases.map(p => ({ name: p.name, progress: p.progress }))\n  }\n}];"
+            },
+            "id": "ab11b485-df07-457c-a76a-3b80310c2358",
+            "name": "Transform Data",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                528,
+                -96
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ $json }}",
+                "options": {}
+            },
+            "id": "d4263b80-5067-4bf3-a7b4-a18fc63cb43b",
+            "name": "Respond",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                768,
+                -96
+            ]
+        }
+    ],
+    "pinData": {},
+    "connections": {
+        "Webhook": {
+            "main": [
+                [
+                    {
+                        "node": "Query Notion",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Query Notion": {
+            "main": [
+                [
+                    {
+                        "node": "Transform Data",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Transform Data": {
+            "main": [
+                [
+                    {
+                        "node": "Respond",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "active": true,
+    "settings": {
+        "executionOrder": "v1",
+        "binaryMode": "separate",
+        "availableInMCP": true
+    },
+    "versionId": "5fdabc21-c180-4202-ac27-abc81fc07735",
+    "meta": {
+        "instanceId": "cb5fd9a9ab4865e202132b20d8364701643975f47bfa03b9c76cb4d0ed1afdd1"
+    },
+    "id": "hG8BHRCTTZ9gQmQK",
+    "tags": []
+}

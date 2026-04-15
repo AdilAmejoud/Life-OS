@@ -1,0 +1,133 @@
+{
+    "name": "Notion Projects → Glance",
+    "nodes": [
+        {
+            "parameters": {
+                "path": "projects",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "5d7648a5-0725-4b6d-81d2-aa77a3f66320",
+            "name": "Webhook",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 2,
+            "position": [
+                -496,
+                -112
+            ],
+            "webhookId": "projects"
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://api.notion.com/v1/databases/2446914a6832810bb4e9e36de8449d44/query",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "value": "Bearer YOUR_NOTION_API_KEY"
+                        },
+                        {
+                            "name": "Notion-Version",
+                            "value": "2022-06-28"
+                        },
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": []
+                },
+                "options": {}
+            },
+            "id": "552cc32b-ccd6-4e81-9636-0e23c86af275",
+            "name": "Query Notion",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                -256,
+                -112
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "const results = $input.first().json.results || [];\n\nconst projects = results.map(page => {\n  try {\n    const props = page.properties;\n    const name = props['Project Name']?.title?.[0]?.plain_text ?? 'Untitled';\n    const status = props['Status']?.status?.name ?? 'Not started';\n    const techList = props['Technologies']?.multi_select ?? [];\n    const type = techList.length ? techList.map(t => t.name).join(', ') : '—';\n    const priority = props['Priority']?.select?.name ?? '—';\n    const diffList = props['Difficulty']?.multi_select ?? [];\n    const difficulty = diffList.length ? diffList[0].name : '—';\n    const start_date = props['Start']?.date?.start ?? '—';\n    const deadline = props['Deadline']?.formula?.string ?? '—';\n    const time_left = props['Timeline']?.formula?.string ?? '—';\n    const progress = props['Progress']?.number ?? (status === 'Done' ? 100 : 0);\n    return { name, status, type, priority, difficulty, start_date, deadline, time_left, progress };\n  } catch(e) {\n    return { name: 'Error', status: 'Not started', type: '—', priority: '—', difficulty: '—', start_date: '—', deadline: '—', time_left: '—', progress: 0 };\n  }\n});\n\nconst current = projects.find(p => p.status === 'In progress') ?? null;\nconst next = projects.find(p => p.status === 'Not started') ?? null;\nconst overall_progress = projects.length\n  ? Math.round(projects.reduce((s, p) => s + p.progress, 0) / projects.length)\n  : 0;\n\nreturn [{ json: { current_project: current, next_project: next, overall_progress, projects } }];"
+            },
+            "id": "a7cc626e-1105-49d4-9843-0f68eb7e1fe8",
+            "name": "Transform Data",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -16,
+                -112
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ $json }}",
+                "options": {}
+            },
+            "id": "a4147309-709f-441c-9730-7ad3e0797a7a",
+            "name": "Respond",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                224,
+                -112
+            ]
+        }
+    ],
+    "pinData": {},
+    "connections": {
+        "Webhook": {
+            "main": [
+                [
+                    {
+                        "node": "Query Notion",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Query Notion": {
+            "main": [
+                [
+                    {
+                        "node": "Transform Data",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Transform Data": {
+            "main": [
+                [
+                    {
+                        "node": "Respond",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "active": true,
+    "settings": {
+        "executionOrder": "v1",
+        "binaryMode": "separate",
+        "availableInMCP": false
+    },
+    "versionId": "69cc843a-f5f2-4383-bbe4-85c68ab720a5",
+    "meta": {
+        "instanceId": "cb5fd9a9ab4865e202132b20d8364701643975f47bfa03b9c76cb4d0ed1afdd1"
+    },
+    "id": "HM6bPrPi3l1NT2f3",
+    "tags": []
+}

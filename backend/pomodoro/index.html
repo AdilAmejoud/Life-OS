@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pomodoro Timer — Life_OS</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    /* Theme colors from Life_OS glance.yml */
+    --bg: hsl(225, 16%, 10%);
+    --surface: hsl(225, 16%, 14%);
+    --surface2: hsl(225, 16%, 18%);
+    --border: rgba(255, 255, 255, 0.08);
+    --border-bright: rgba(255, 255, 255, 0.15);
+    --primary: hsl(217, 92%, 83%);
+    --primary-rgb: 205, 109, 75;
+    --positive: hsl(145, 70%, 55%);
+    --positive-rgb: 92, 178, 70;
+    --negative: hsl(0, 75%, 55%);
+    --negative-rgb: 191, 38, 38;
+    --text: #e8e8f0;
+    --muted: rgba(232, 232, 240, 0.45);
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .pomodoro-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary), var(--negative));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3);
+  }
+
+  .header-title h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .header-title .subtitle {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .session-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .session-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+  }
+
+  /* Main Content */
+  main {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 24px 40px;
+  }
+
+  .page-layout {
+    display: grid;
+    grid-template-columns: minmax(260px, 340px) minmax(640px, 1fr);
+    gap: 32px;
+    max-width: 1280px;
+    width: 100%;
+  }
+
+  .panel-left,
+  .panel-right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .panel-left {
+    align-items: center;
+  }
+
+  .panel-right {
+    min-height: 0;
+  }
+
+  /* TODO app shell */
+  .todo-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .todo-shell-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 4px 4px;
+  }
+
+  .todo-shell-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .todo-shell-subtitle {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .todo-shell-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .todo-shell-header-right {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .todo-shell-pill {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .todo-main {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .todo-sidebar {
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 14px 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .todo-sidebar-section-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .todo-sidebar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .todo-sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .todo-sidebar-item-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .todo-sidebar-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--primary);
+  }
+
+  .todo-sidebar-item-count {
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+  }
+
+  .todo-sidebar-item.active {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  .todo-sidebar-item.active .todo-sidebar-item-count {
+    color: var(--primary);
+  }
+
+  .todo-board {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .timer-container {
+    position: relative;
+    width: 360px;
+    height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .timer-svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+  }
+
+  .timer-circle {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+  }
+
+  .timer-circle-bg {
+    stroke: var(--border);
+  }
+
+  .timer-circle-progress {
+    stroke: var(--primary);
+    stroke-dasharray: 1068;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
+  }
+
+  .timer-content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .time-display {
+    font-size: 6rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .time-display.short {
+    color: var(--positive);
+  }
+
+  .time-display.long {
+    color: var(--negative);
+  }
+
+  .session-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .session-label {
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .session-name {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .session-name.work {
+    color: var(--primary);
+  }
+
+  .session-name.break {
+    color: var(--positive);
+  }
+
+  .task-input {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 400px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .task-input::placeholder {
+    color: var(--muted);
+  }
+
+  .task-input:focus {
+    border-color: var(--primary);
+  }
+
+  .task-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Task Manager Panel */
+  .task-manager {
+    width: 100%;
+    max-height: 580px;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 16px 18px 14px;
+    box-shadow: var(--shadow);
+  }
+
+  .task-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .task-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .task-count {
+    font-size: 0.75rem;
+    background: var(--surface2);
+    padding: 2px 8px;
+    border-radius: 999px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .task-filters {
+    display: flex;
+    gap: 6px;
+  }
+
+  .task-filter-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .task-filter-btn.active {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  .add-task-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) 0.7fr auto;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .task-input-full,
+  .task-duration-input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .task-input-full::placeholder {
+    color: var(--muted);
+  }
+
+  .task-input-full:focus,
+  .task-duration-input:focus {
+    border-color: var(--primary);
+    background: var(--surface);
+  }
+
+  .task-duration-input {
+    width: 100%;
+    font-family: 'JetBrains Mono', monospace;
+    text-align: center;
+  }
+
+  .task-advanced-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    margin-bottom: 6px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .task-advanced-toggle svg {
+    width: 14px;
+    height: 14px;
+    transform: rotate(0deg);
+    transition: transform 0.2s ease;
+  }
+
+  .task-advanced-toggle.open svg {
+    transform: rotate(90deg);
+  }
+
+  .task-advanced {
+    display: none;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .task-advanced.open {
+    display: grid;
+  }
+
+  .task-advanced-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .task-advanced-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .task-advanced-input,
+  .task-advanced-select {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 10px;
+    color: var(--text);
+    font-size: 0.8rem;
+    outline: none;
+  }
+
+  .task-advanced-input:focus,
+  .task-advanced-select:focus {
+    border-color: var(--primary);
+  }
+
+  .task-notes {
+    grid-column: 1 / -1;
+    resize: vertical;
+    min-height: 44px;
+    max-height: 90px;
+  }
+
+  .btn-add {
+    padding: 12px 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-add:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+  }
+
+  .task-sections {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    overflow-x: auto;
+    padding-right: 4px;
+    margin-top: 4px;
+  }
+
+  .task-section {
+    border-radius: 10px;
+    padding: 6px 6px 4px;
+    min-width: 240px;
+    max-width: 280px;
+    background: var(--surface);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .task-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .task-section-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .task-section-count {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .task-section-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Scrollbar styling */
+  .task-sections::-webkit-scrollbar {
+    width: 6px;
+  }
+  .task-sections::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+  .task-sections::-webkit-scrollbar-thumb {
+    background: var(--surface2);
+    border-radius: 3px;
+  }
+
+  .task-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 12px 10px;
+    transition: all 0.2s;
+    position: relative;
+    cursor: grab;
+  }
+
+  .task-item:hover {
+    border-color: var(--border-bright);
+  }
+
+  .task-item.current-task {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary) inset;
+  }
+
+  .task-item.completed {
+    opacity: 0.5;
+    background: var(--surface2);
+  }
+
+  .task-item.completed .task-progress-bar {
+    background: var(--positive);
+  }
+
+  .task-item.completed .task-name {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
+  .task-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .task-name {
+    flex: 1;
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 500;
+    margin-right: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .task-pomodoros {
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  .task-progress-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .task-progress-text {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .task-progress-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: var(--bg);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 0 10px;
+  }
+
+  .task-progress-bar {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+  }
+
+  .task-progress-bar.completed {
+    background: var(--positive);
+  }
+
+  .task-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .btn-task {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-task:hover {
+    color: var(--text);
+    background: var(--surface2);
+  }
+
+  .btn-task.delete:hover {
+    color: var(--negative);
+    background: rgba(191, 38, 38, 0.1);
+  }
+
+  .btn-task.active {
+    color: var(--primary);
+    background: rgba(205, 109, 75, 0.1);
+  }
+
+  .btn-task svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+
+  .no-tasks {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+  }
+
+  .no-tasks svg {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 12px;
+    opacity: 0.3;
+  }
+
+  /* Auto-complete info */
+  .auto-complete-info {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-align: left;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  .stats {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+    padding: 14px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--primary);
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(var(--primary-rgb), 0.4);
+  }
+
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    background: var(--surface);
+    border-color: var(--border-bright);
+  }
+
+  .btn-small {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+
+  .btn-icon {
+    padding: 10px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .btn-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  .timer-icon {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+
+  /* Duration Settings */
+  .duration-settings {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+    background: var(--surface);
+    padding: 6px;
+    border-radius: 10px;
+  }
+
+  .duration-btn {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .duration-btn.active {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  .duration-btn:hover:not(.active) {
+    color: var(--text);
+  }
+
+  /* Settings Modal */
+  .settings-panel {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+
+  .settings-panel.open {
+    display: block;
+  }
+
+  .setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .setting-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .setting-label {
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .setting-value {
+    font-size: 0.9rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+  }
+
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .checkbox.checked {
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+
+  .checkbox svg {
+    width: 12px;
+    height: 12px;
+    fill: white;
+    display: none;
+  }
+
+  .checkbox.checked svg {
+    display: block;
+  }
+
+  .duration-inputs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .duration-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .duration-input-group label {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .duration-input {
+    width: 80px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    text-align: center;
+  }
+
+  .duration-input:focus {
+    border-color: var(--primary);
+    outline: none;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .page-layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .panel-left {
+      align-items: center;
+    }
+
+    .panel-right {
+      max-height: none;
+    }
+
+    .timer-container {
+      width: 280px;
+      height: 280px;
+    }
+
+    .time-display {
+      font-size: 4rem;
+    }
+
+    .controls {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 12px 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    header {
+      padding: 16px 20px;
+    }
+
+    .pomodoro-icon {
+      width: 32px;
+      height: 32px;
+      font-size: 16px;
+    }
+
+    .header-title h1 {
+      font-size: 1.2rem;
+    }
+
+    main {
+      padding: 24px 16px;
+    }
+
+    .timer-container {
+      width: 240px;
+      height: 240px;
+    }
+
+    .time-display {
+      font-size: 3rem;
+    }
+
+    .session-name {
+      font-size: 1.5rem;
+    }
+
+    .stats {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .stat-value {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="pomodoro-icon">🍅</div>
+    <div class="header-title">
+      <h1>Pomodoro</h1>
+      <div class="subtitle">Focus & Productivity</div>
+    </div>
+  </div>
+  <div class="session-badge">
+    <div class="session-dot" id="sessionDot"></div>
+    <span id="currentSessionText">Work</span>
+  </div>
+</header>
+
+<main>
+  <div class="page-layout">
+    <section class="panel-left">
+      <div class="timer-container">
+        <svg class="timer-svg" viewBox="0 0 120 120">
+          <circle class="timer-circle timer-circle-bg" cx="60" cy="60" r="54"></circle>
+          <circle class="timer-circle timer-circle-progress" id="progressCircle" cx="60" cy="60" r="54"></circle>
+        </svg>
+        <div class="timer-content">
+          <div class="time-display" id="timeDisplay">25:00</div>
+          <div class="session-info">
+            <div class="session-label">Focus Session</div>
+            <div class="session-name work" id="sessionName">Work</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="duration-settings">
+        <button class="duration-btn active" data-duration="25">25m</button>
+        <button class="duration-btn" data-duration="5">5m</button>
+        <button class="duration-btn" data-duration="15">15m</button>
+      </div>
+
+      <div>
+        <div class="task-label">Current Task</div>
+        <input type="text" class="task-input" id="taskInput" placeholder="What are you working on?">
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-secondary btn-icon" id="settingsBtn" title="Settings">
+          <svg class="timer-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+        </button>
+        <button class="btn btn-secondary btn-icon" id="skipBtn" title="Skip">
+          <svg class="timer-icon" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+        </button>
+        <button class="btn btn-primary" id="startBtn" title="Start Timer">
+          <svg class="timer-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <span id="startText">Start</span>
+        </button>
+        <button class="btn btn-secondary btn-icon" id="resetBtn" title="Reset">
+          <svg class="timer-icon" viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+        </button>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-value" id="pomodorosCount">0</div>
+          <div class="stat-label">Pomodoros</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="sessionsCount">0</div>
+          <div class="stat-label">Sessions</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="totalTimeDisplay">0h 0m</div>
+          <div class="stat-label">Total Time</div>
+        </div>
+      </div>
+
+      <div class="settings-panel" id="settingsPanel">
+        <div class="setting-row">
+          <span class="setting-label">Auto-start breaks</span>
+          <div class="checkbox" id="autoBreakToggle"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+        </div>
+        <div class="setting-row">
+          <span class="setting-label">Enable sounds</span>
+          <div class="checkbox" id="soundToggle" checked><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></div>
+        </div>
+        <div class="setting-row">
+          <span class="setting-label">Long break after (sessions)</span>
+          <span class="setting-value" id="longBreakAfterValue">4</span>
+        </div>
+        <div class="duration-inputs" id="durationInputs" style="margin-top: 16px; display: flex; gap: 16px;">
+          <div class="duration-input-group">
+            <label>Work (minutes)</label>
+            <input type="number" class="duration-input" id="workDuration" value="25" min="1" max="120">
+          </div>
+          <div class="duration-input-group">
+            <label>Short Break (minutes)</label>
+            <input type="number" class="duration-input" id="shortBreakDuration" value="5" min="1" max="60">
+          </div>
+          <div class="duration-input-group">
+            <label>Long Break (minutes)</label>
+            <input type="number" class="duration-input" id="longBreakDuration" value="15" min="1" max="120">
+          </div>
+        </div>
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); text-align: right;">
+          <button class="btn btn-secondary btn-small" id="saveSettingsBtn">Save Settings</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel-right">
+      <div class="todo-shell">
+        <div class="todo-shell-header">
+          <div class="todo-shell-header-left">
+            <div class="todo-shell-title">Personal</div>
+            <div class="todo-shell-subtitle">Kanban board · Focus tasks</div>
+          </div>
+          <div class="todo-shell-header-right">
+            <div class="todo-shell-pill">Today</div>
+            <div class="todo-shell-pill">All tasks</div>
+          </div>
+        </div>
+
+        <div class="todo-main">
+          <aside class="todo-sidebar">
+            <div>
+              <div class="todo-sidebar-section-title">Views</div>
+              <div class="todo-sidebar-list">
+                <div class="todo-sidebar-item active" data-list="all">
+                  <div class="todo-sidebar-item-label">
+                    <span>All</span>
+                  </div>
+                  <span class="todo-sidebar-item-count" id="sidebarAllCount">0</span>
+                </div>
+                <div class="todo-sidebar-item" data-list="today">
+                  <div class="todo-sidebar-item-label">
+                    <span>Today</span>
+                  </div>
+                  <span class="todo-sidebar-item-count" id="sidebarTodayCount">0</span>
+                </div>
+                <div class="todo-sidebar-item" data-list="next7">
+                  <div class="todo-sidebar-item-label">
+                    <span>Next 7 Days</span>
+                  </div>
+                  <span class="todo-sidebar-item-count" id="sidebarNext7Count">0</span>
+                </div>
+                <div class="todo-sidebar-item" data-list="calendar">
+                  <div class="todo-sidebar-item-label">
+                    <span>Calendar</span>
+                  </div>
+                  <span class="todo-sidebar-item-count">–</span>
+                </div>
+                <div class="todo-sidebar-item" data-list="inbox">
+                  <div class="todo-sidebar-item-label">
+                    <span>Inbox</span>
+                  </div>
+                  <span class="todo-sidebar-item-count" id="sidebarInboxCount">0</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="todo-sidebar-section-title">Lists</div>
+              <div class="todo-sidebar-list">
+                <div class="todo-sidebar-item" data-list="personal">
+                  <div class="todo-sidebar-item-label">
+                    <span class="todo-sidebar-dot"></span>
+                    <span>Personal</span>
+                  </div>
+                  <span class="todo-sidebar-item-count" id="sidebarPersonalCount">0</span>
+                </div>
+                <div class="todo-sidebar-item" data-list="work">
+                  <div class="todo-sidebar-item-label">
+                    <span class="todo-sidebar-dot"></span>
+                    <span>Work</span>
+                  </div>
+                  <span class="todo-sidebar-item-count" id="sidebarWorkCount">0</span>
+                </div>
+                <div class="todo-sidebar-item" data-list="events">
+                  <div class="todo-sidebar-item-label">
+                    <span class="todo-sidebar-dot"></span>
+                    <span>Events</span>
+                  </div>
+                  <span class="todo-sidebar-item-count" id="sidebarEventsCount">0</span>
+                </div>
+                <div class="todo-sidebar-item" data-list="someday">
+                  <div class="todo-sidebar-item-label">
+                    <span class="todo-sidebar-dot"></span>
+                    <span>Someday</span>
+                  </div>
+                  <span class="todo-sidebar-item-count" id="sidebarSomedayCount">0</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <div class="todo-board">
+            <!-- Task Manager Panel -->
+            <div class="task-manager">
+              <div class="task-header">
+                <div class="task-title">
+                  <span>Tasks</span>
+                  <span class="task-count" id="taskCount">0 / 0</span>
+                </div>
+                <div class="task-filters">
+                  <button type="button" class="task-filter-btn active" data-filter="all">All</button>
+                  <button type="button" class="task-filter-btn" data-filter="active">Active</button>
+                  <button type="button" class="task-filter-btn" data-filter="completed">Completed</button>
+                </div>
+              </div>
+
+              <form class="add-task-form" id="addTaskForm">
+                <input type="text" class="task-input-full" id="newTaskName" placeholder="Quick add task to To Do">
+                <input type="number" class="task-duration-input" id="newTaskPomodoros" placeholder="Pomodoros" min="1" max="20" value="1">
+                <button type="submit" class="btn-add">
+                  <svg viewBox="0 0 24 24" width="18" height="18">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor"/>
+                  </svg>
+                  Add
+                </button>
+              </form>
+
+              <button type="button" class="task-advanced-toggle" id="taskAdvancedToggle">
+                <svg viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                </svg>
+                More options
+              </button>
+
+              <div class="task-advanced" id="taskAdvanced">
+                <div class="task-advanced-field">
+                  <span class="task-advanced-label">Due date</span>
+                  <input type="date" class="task-advanced-input" id="newTaskDueDate">
+                </div>
+                <div class="task-advanced-field">
+                  <span class="task-advanced-label">Priority</span>
+                  <select class="task-advanced-select" id="newTaskPriority">
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                    <option value="low">Low</option>
+                  </select>
+                </div>
+                <div class="task-advanced-field">
+                  <span class="task-advanced-label">Notes</span>
+                  <textarea class="task-advanced-input task-notes" id="newTaskNotes" placeholder="Details, steps, or links"></textarea>
+                </div>
+              </div>
+
+              <div class="task-sections" id="taskList">
+                <!-- Kanban columns rendered here -->
+              </div>
+
+              <div class="auto-complete-info" id="autoCompleteInfo">
+                Tasks auto-complete when Pomodoro progress reaches estimated duration
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+  // Pomodoro Timer Logic
+  class PomodoroTimer {
+    constructor() {
+      // Configuration
+      this.config = {
+        work: 25 * 60,
+        shortBreak: 5 * 60,
+        longBreak: 15 * 60,
+        autoStartBreaks: true,
+        enableSound: true,
+        longBreakAfter: 4
+      };
+
+      // State
+      this.state = {
+        timeLeft: this.config.work,
+        totalTime: 0,
+        isRunning: false,
+        currentMode: 'work', // 'work', 'shortBreak', 'longBreak'
+        pomodoros: 0,
+        currentSession: 0
+      };
+
+      // Task state
+      this.tasks = [];
+      this.currentTaskId = null;
+      this.draggingTaskId = null;
+      this.selectedList = 'personal';
+
+      // Audio context for beeps
+      this.audioContext = null;
+      this.audioInitialized = false;
+
+      // DOM Elements
+      this.elements = {
+        timeDisplay: document.getElementById('timeDisplay'),
+        progressCircle: document.getElementById('progressCircle'),
+        sessionName: document.getElementById('sessionName'),
+        sessionText: document.getElementById('currentSessionText'),
+        sessionDot: document.getElementById('sessionDot'),
+        startBtn: document.getElementById('startBtn'),
+        startText: document.getElementById('startText'),
+        skipBtn: document.getElementById('skipBtn'),
+        resetBtn: document.getElementById('resetBtn'),
+        settingsBtn: document.getElementById('settingsBtn'),
+        settingsPanel: document.getElementById('settingsPanel'),
+        saveSettingsBtn: document.getElementById('saveSettingsBtn'),
+        durationInputs: document.getElementById('durationInputs'),
+        taskInput: document.getElementById('taskInput'),
+        pomodorosCount: document.getElementById('pomodorosCount'),
+        sessionsCount: document.getElementById('sessionsCount'),
+        totalTimeDisplay: document.getElementById('totalTimeDisplay'),
+        durationBtns: document.querySelectorAll('.duration-btn'),
+        autoBreakToggle: document.getElementById('autoBreakToggle'),
+        soundToggle: document.getElementById('soundToggle'),
+        longBreakAfterValue: document.getElementById('longBreakAfterValue'),
+        workDuration: document.getElementById('workDuration'),
+        shortBreakDuration: document.getElementById('shortBreakDuration'),
+        longBreakDuration: document.getElementById('longBreakDuration'),
+        // Task Manager Elements
+        addTaskForm: document.getElementById('addTaskForm'),
+        newTaskName: document.getElementById('newTaskName'),
+        newTaskPomodoros: document.getElementById('newTaskPomodoros'),
+        newTaskDueDate: document.getElementById('newTaskDueDate'),
+        newTaskPriority: document.getElementById('newTaskPriority'),
+        newTaskNotes: document.getElementById('newTaskNotes'),
+        taskAdvancedToggle: document.getElementById('taskAdvancedToggle'),
+        taskAdvanced: document.getElementById('taskAdvanced'),
+        taskList: document.getElementById('taskList'),
+        taskCount: document.getElementById('taskCount'),
+        autoCompleteInfo: document.getElementById('autoCompleteInfo'),
+        taskFilterButtons: document.querySelectorAll('.task-filter-btn'),
+        sidebarItems: document.querySelectorAll('.todo-sidebar-item')
+      };
+
+      this.timerInterval = null;
+      this.progressCircleRadius = 54;
+      this.progressCircleCircumference = 2 * Math.PI * this.progressCircleRadius;
+
+      this.init();
+    }
+
+    init() {
+      // Set up progress circle
+      this.elements.progressCircle.style.strokeDasharray = this.progressCircleCircumference;
+      this.elements.progressCircle.style.strokeDashoffset = this.progressCircleCircumference - this.calculateOffset(this.state.timeLeft);
+
+      // Initialize colors based on mode
+      this.applyThemeColors();
+
+      // Load saved settings
+      this.loadSettings();
+
+      // Load saved state
+      this.loadState();
+
+      // Event Listeners
+      this.elements.startBtn.addEventListener('click', () => this.toggleTimer());
+      this.elements.skipBtn.addEventListener('click', () => this.skipSession());
+      this.elements.resetBtn.addEventListener('click', () => this.resetTimer());
+      this.elements.settingsBtn.addEventListener('click', () => this.toggleSettings());
+      this.elements.saveSettingsBtn.addEventListener('click', () => this.saveSettings());
+
+      // Duration buttons
+      this.elements.durationBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          this.setQuickDuration(e.target.dataset.duration);
+          this.elements.durationBtns.forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+        });
+      });
+
+      // Task Manager Event Listeners
+      this.elements.addTaskForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.addTask();
+      });
+
+      this.elements.taskAdvancedToggle.addEventListener('click', () => {
+        this.elements.taskAdvanced.classList.toggle('open');
+        this.elements.taskAdvancedToggle.classList.toggle('open');
+      });
+
+      this.elements.taskFilterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.elements.taskFilterButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          this.renderTaskList();
+        });
+      });
+
+      this.elements.sidebarItems.forEach(item => {
+        item.addEventListener('click', () => {
+          this.elements.sidebarItems.forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+          const list = item.dataset.list || 'all';
+          this.selectedList = list;
+          this.renderTaskList();
+        });
+      });
+
+      // Auto-update display
+      this.updateDisplay();
+
+      // Initialize tasks
+      this.loadTasks();
+    }
+
+    calculateOffset(seconds) {
+      const totalSeconds = this.state.currentMode === 'work' ? this.config.work :
+                          this.state.currentMode === 'shortBreak' ? this.config.shortBreak :
+                          this.config.longBreak;
+      return (seconds / totalSeconds) * this.progressCircleCircumference;
+    }
+
+    applyThemeColors() {
+      const colors = {
+        work: { stroke: 'var(--primary)', color: 'var(--primary)', className: 'work' },
+        shortBreak: { stroke: 'var(--positive)', color: 'var(--positive)', className: 'break' },
+        longBreak: { stroke: 'var(--negative)', color: 'var(--negative)', className: 'break' }
+      };
+
+      const theme = colors[this.state.currentMode] || colors.work;
+
+      this.elements.progressCircle.style.stroke = theme.stroke;
+      this.elements.sessionName.className = `session-name ${theme.className}`;
+      this.elements.sessionText.textContent = this.state.currentMode === 'work' ? 'Work' : 'Break';
+      this.elements.sessionDot.style.background = theme.color;
+      this.elements.timeDisplay.className = `time-display ${this.state.currentMode === 'work' ? '' : this.state.currentMode === 'shortBreak' ? 'short' : 'long'}`;
+    }
+
+    updateDisplay() {
+      const minutes = Math.floor(this.state.timeLeft / 60);
+      const seconds = this.state.timeLeft % 60;
+      this.elements.timeDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      this.elements.pomodorosCount.textContent = this.state.pomodoros;
+      this.elements.sessionsCount.textContent = this.state.currentSession;
+      this.elements.totalTimeDisplay.textContent = this.formatTotalTime(this.state.totalTime);
+
+      // Update progress circle
+      const offset = this.calculateOffset(this.state.timeLeft);
+      this.elements.progressCircle.style.strokeDashoffset = offset;
+    }
+
+    formatTotalTime(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      return `${hours}h ${minutes}m`;
+    }
+
+    toggleTimer() {
+      if (this.state.isRunning) {
+        this.pauseTimer();
+      } else {
+        this.startTimer();
+      }
+    }
+
+    startTimer() {
+      if (this.state.timeLeft <= 0) {
+        this.resetTimer();
+        return;
+      }
+
+      this.state.isRunning = true;
+      this.elements.startText.textContent = 'Pause';
+      this.elements.startBtn.classList.remove('btn-primary');
+      this.elements.startBtn.style.background = 'var(--positive)';
+      this.elements.startBtn.style.boxShadow = '0 4px 20px rgba(var(--positive-rgb), 0.3)';
+
+      this.timerInterval = setInterval(() => {
+        this.state.timeLeft--;
+        this.state.totalTime++;
+        this.updateDisplay();
+
+        if (this.state.timeLeft <= 0) {
+          this.handleSessionComplete();
+        }
+      }, 1000);
+    }
+
+    pauseTimer() {
+      this.state.isRunning = false;
+      clearInterval(this.timerInterval);
+      this.elements.startText.textContent = 'Start';
+      this.elements.startBtn.classList.add('btn-primary');
+      this.elements.startBtn.style.background = 'var(--primary)';
+      this.elements.startBtn.style.boxShadow = '0 4px 20px rgba(var(--primary-rgb), 0.3)';
+    }
+
+    handleSessionComplete() {
+      this.pauseTimer();
+      this.playSound();
+      this.saveState();
+
+      if (this.state.currentMode === 'work') {
+        this.state.pomodoros++;
+        this.state.currentSession++;
+        // Increment task pomodoro for current task
+        this.incrementTaskPomodoros();
+
+        // Determine next break type
+        const nextBreak = this.state.pomodoros % this.config.longBreakAfter === 0
+          ? 'longBreak'
+          : 'shortBreak';
+
+        this.state.currentMode = nextBreak;
+        this.state.timeLeft = nextBreak === 'longBreak' ? this.config.longBreak : this.config.shortBreak;
+
+        if (this.config.autoStartBreaks) {
+          setTimeout(() => this.startTimer(), 1000);
+        }
+      } else {
+        // Break complete, back to work
+        this.state.currentMode = 'work';
+        this.state.timeLeft = this.config.work;
+
+        if (this.config.autoStartBreaks) {
+          setTimeout(() => this.startTimer(), 1000);
+        }
+      }
+
+      this.applyThemeColors();
+      this.updateDisplay();
+      this.saveState();
+    }
+
+    skipSession() {
+      this.pauseTimer();
+      this.handleSessionComplete();
+    }
+
+    resetTimer() {
+      this.pauseTimer();
+      this.state.timeLeft = this.state.currentMode === 'work'
+        ? this.config.work
+        : this.state.currentMode === 'shortBreak'
+        ? this.config.shortBreak
+        : this.config.longBreak;
+      this.updateDisplay();
+      this.applyThemeColors();
+    }
+
+    setQuickDuration(minutes) {
+      const seconds = parseInt(minutes) * 60;
+      this.pauseTimer();
+      this.state.timeLeft = seconds;
+      this.state.totalTime = 0;
+      this.updateDisplay();
+    }
+
+    // Sound functionality
+    playSound() {
+      if (!this.config.enableSound) return;
+
+      // Initialize audio context if needed
+      if (!this.audioInitialized) {
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        this.audioInitialized = true;
+      }
+
+      // Play beep
+      const oscillator = this.audioContext.createOscillator();
+      const gainNode = this.audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(this.audioContext.destination);
+
+      oscillator.frequency.value = 800;
+      oscillator.type = 'sine';
+
+      gainNode.gain.setValueAtTime(0.5, this.audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.3);
+
+      oscillator.start(this.audioContext.currentTime);
+      oscillator.stop(this.audioContext.currentTime + 0.3);
+    }
+
+    // Settings functions
+    toggleSettings() {
+      this.elements.settingsPanel.classList.toggle('open');
+    }
+
+    saveSettings() {
+      // Get values from inputs
+      this.config.work = parseInt(this.elements.workDuration.value) * 60;
+      this.config.shortBreak = parseInt(this.elements.shortBreakDuration.value) * 60;
+      this.config.longBreak = parseInt(this.elements.longBreakDuration.value) * 60;
+
+      // Update toggle states
+      this.config.autoStartBreaks = this.elements.autoBreakToggle.classList.contains('checked');
+      this.config.enableSound = this.elements.soundToggle.classList.contains('checked');
+      this.config.longBreakAfter = parseInt(this.elements.longBreakAfterValue.textContent);
+
+      // If in work mode and time left is different, update it
+      if (this.state.currentMode === 'work' && this.state.isRunning === false) {
+        this.state.timeLeft = this.config.work;
+        this.updateDisplay();
+      }
+
+      // Hide settings
+      this.elements.settingsPanel.classList.remove('open');
+      this.saveSettingsToStorage();
+    }
+
+    loadSettings() {
+      const saved = localStorage.getItem('pomodoroSettings');
+      if (saved) {
+        const settings = JSON.parse(saved);
+        this.config = { ...this.config, ...settings };
+      }
+
+      // Update UI to match config
+      this.elements.workDuration.value = this.config.work / 60;
+      this.elements.shortBreakDuration.value = this.config.shortBreak / 60;
+      this.elements.longBreakDuration.value = this.config.longBreak / 60;
+      this.elements.autoBreakToggle.classList.toggle('checked', this.config.autoStartBreaks);
+      this.elements.soundToggle.classList.toggle('checked', this.config.enableSound);
+      this.elements.longBreakAfterValue.textContent = this.config.longBreakAfter;
+    }
+
+    saveSettingsToStorage() {
+      const settings = {
+        work: this.config.work,
+        shortBreak: this.config.shortBreak,
+        longBreak: this.config.longBreak,
+        autoStartBreaks: this.config.autoStartBreaks,
+        enableSound: this.config.enableSound,
+        longBreakAfter: this.config.longBreakAfter
+      };
+      localStorage.setItem('pomodoroSettings', JSON.stringify(settings));
+    }
+
+    // State functions
+    loadState() {
+      const saved = localStorage.getItem('pomodoroState');
+      if (saved) {
+        const state = JSON.parse(saved);
+        this.state = { ...this.state, ...state };
+        // Reset running state
+        this.state.isRunning = false;
+      }
+    }
+
+    saveState() {
+      const state = {
+        timeLeft: this.state.timeLeft,
+        currentMode: this.state.currentMode,
+        pomodoros: this.state.pomodoros,
+        currentSession: this.state.currentSession,
+        totalTime: this.state.totalTime
+      };
+      localStorage.setItem('pomodoroState', JSON.stringify(state));
+    }
+
+    // State functions
+    loadState() {
+      const saved = localStorage.getItem('pomodoroState');
+      if (saved) {
+        const state = JSON.parse(saved);
+        this.state = { ...this.state, ...state };
+        // Reset running state
+        this.state.isRunning = false;
+      }
+    }
+
+    saveState() {
+      const state = {
+        timeLeft: this.state.timeLeft,
+        currentMode: this.state.currentMode,
+        pomodoros: this.state.pomodoros,
+        currentSession: this.state.currentSession,
+        totalTime: this.state.totalTime
+      };
+      localStorage.setItem('pomodoroState', JSON.stringify(state));
+    }
+
+    // ==========================================
+    // Task Manager Functions (LocalStorage)
+    // ==========================================
+
+    // Generate unique ID
+    generateId() {
+      return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+
+    // Load tasks from localStorage
+    loadTasks() {
+      const saved = localStorage.getItem('pomodoroTasks');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          this.tasks = (data.tasks || []).map(t => ({
+            id: t.id,
+            title: t.title,
+            estimatedPomodoros: typeof t.estimatedPomodoros === 'number' ? t.estimatedPomodoros : 1,
+            completedPomodoros: typeof t.completedPomodoros === 'number' ? t.completedPomodoros : 0,
+            createdAt: t.createdAt || Date.now(),
+            isCompleted: !!t.isCompleted,
+            // New fields with sensible defaults
+            dueDate: t.dueDate || null,
+            priority: t.priority || 'medium',
+            status: t.status || 'todo',
+            list: t.list || 'personal',
+            notes: t.notes || '',
+            subtasks: Array.isArray(t.subtasks) ? t.subtasks : [],
+            order: typeof t.order === 'number' ? t.order : (t.createdAt || Date.now())
+          }));
+          this.currentTaskId = data.currentTaskId || null;
+        } catch (e) {
+          this.tasks = [];
+          this.currentTaskId = null;
+        }
+      }
+      this.renderTaskList();
+      this.updateTaskCount();
+    }
+
+    // Save tasks to localStorage
+    saveTasks() {
+      const data = {
+        tasks: this.tasks,
+        currentTaskId: this.currentTaskId
+      };
+      localStorage.setItem('pomodoroTasks', JSON.stringify(data));
+      this.updateTaskCount();
+    }
+
+    // Add a new task
+    addTask() {
+      const name = this.elements.newTaskName.value.trim();
+      const estimatedPomodoros = parseInt(this.elements.newTaskPomodoros.value) || 1;
+      const dueDate = this.elements.newTaskDueDate.value || null;
+      const priority = this.elements.newTaskPriority.value || 'medium';
+      const notes = this.elements.newTaskNotes.value.trim();
+
+      if (!name) {
+        this.elements.newTaskName.focus();
+        return;
+      }
+
+      const now = Date.now();
+
+      const task = {
+        id: this.generateId(),
+        title: name,
+        estimatedPomodoros: estimatedPomodoros,
+        completedPomodoros: 0,
+        createdAt: now,
+        isCompleted: false,
+        dueDate,
+        priority,
+        status: 'todo',
+        list: this.selectedList && this.selectedList !== 'all' ? this.selectedList : 'personal',
+        notes,
+        subtasks: [],
+        order: now
+      };
+
+      this.tasks.push(task);
+      this.elements.newTaskName.value = '';
+      this.elements.newTaskPomodoros.value = '1';
+      this.elements.newTaskDueDate.value = '';
+      this.elements.newTaskPriority.value = 'medium';
+      this.elements.newTaskNotes.value = '';
+
+      this.saveTasks();
+      this.renderTaskList();
+
+      // Automatically select the new task if none selected
+      if (!this.currentTaskId && this.tasks.length === 1) {
+        this.selectTask(task.id);
+      }
+    }
+
+    // Delete a task
+    deleteTask(taskId) {
+      const taskIndex = this.tasks.findIndex(t => t.id === taskId);
+      if (taskIndex > -1) {
+        // If the deleted task is current, clear current task
+        if (this.currentTaskId === taskId) {
+          this.currentTaskId = null;
+          this.elements.taskInput.value = '';
+          this.elements.taskInput.placeholder = 'Select a task to track';
+        }
+
+        this.tasks.splice(taskIndex, 1);
+        this.saveTasks();
+        this.renderTaskList();
+      }
+    }
+
+    // Select a task as the current task
+    selectTask(taskId) {
+      this.currentTaskId = taskId;
+      const task = this.tasks.find(t => t.id === taskId);
+      if (task) {
+        this.elements.taskInput.value = task.title;
+        this.saveTasks();
+        this.renderTaskList();
+      }
+    }
+
+    // Increment completed pomodoros for current task
+    incrementTaskPomodoros() {
+      if (!this.currentTaskId) return;
+
+      const task = this.tasks.find(t => t.id === this.currentTaskId);
+      if (task && !task.isCompleted) {
+        task.completedPomodoros++;
+        this.checkTaskCompletion(task);
+        this.saveTasks();
+        this.renderTaskList();
+        this.updateCurrentTaskDisplay();
+      }
+    }
+
+    // Check if task is completed and auto-complete if needed
+    checkTaskCompletion(task) {
+      if (task.completedPomodoros >= task.estimatedPomodoros) {
+        task.isCompleted = true;
+        this.elements.autoCompleteInfo.textContent = `Auto-completed: ${task.title}`;
+        setTimeout(() => {
+          if (this.elements.autoCompleteInfo.textContent.includes('Auto-completed')) {
+            this.elements.autoCompleteInfo.textContent = 'Tasks auto-complete when Pomodoro progress reaches estimated duration';
+          }
+        }, 3000);
+      }
+    }
+
+    // Update current task display in main input
+    updateCurrentTaskDisplay() {
+      if (this.currentTaskId) {
+        const task = this.tasks.find(t => t.id === this.currentTaskId);
+        if (task) {
+          this.elements.taskInput.value = task.title;
+        }
+      }
+    }
+
+    // Render the task list
+    renderTaskList() {
+      const taskList = this.elements.taskList;
+      taskList.innerHTML = '';
+
+      if (this.tasks.length === 0) {
+        taskList.innerHTML = `
+          <div class="no-tasks">
+            <svg viewBox="0 0 24 24">
+              <path fill="currentColor" d="M14,10H2V12H14V10M14,6H2V8H14V6M2,16H10V14H2V16M16,10H22V12H16V10M16,6H22V8H16V6M16,16H22V14H16V16Z" />
+            </svg>
+            <p>No tasks yet<br>Add your first task above!</p>
+          </div>
+        `;
+        return;
+      }
+
+      const activeFilterBtn = Array.from(this.elements.taskFilterButtons).find(b => b.classList.contains('active'));
+      const activeFilter = activeFilterBtn ? activeFilterBtn.dataset.filter : 'all';
+
+      const columns = [
+        { id: 'todo', title: 'To Do' },
+        { id: 'doing', title: 'Doing' },
+        { id: 'later', title: 'Later' }
+      ];
+
+      let filteredTasks = [...this.tasks];
+
+      // Filter by selected list
+      if (this.selectedList && this.selectedList !== 'all') {
+        filteredTasks = filteredTasks.filter(t => (t.list || 'personal') === this.selectedList);
+      }
+
+      // Filter by active/completed
+      if (activeFilter === 'active') {
+        filteredTasks = filteredTasks.filter(t => !t.isCompleted);
+      } else if (activeFilter === 'completed') {
+        filteredTasks = filteredTasks.filter(t => t.isCompleted);
+      }
+
+      const sortedTasks = filteredTasks.sort((a, b) => a.order - b.order);
+
+      columns.forEach(column => {
+        const columnTasks = sortedTasks.filter(t => (t.status || 'todo') === column.id);
+
+        const sectionEl = document.createElement('div');
+        sectionEl.className = 'task-section';
+        sectionEl.dataset.column = column.id;
+
+        const headerEl = document.createElement('div');
+        headerEl.className = 'task-section-header';
+        headerEl.innerHTML = `
+          <span class="task-section-title">${column.title}</span>
+          <span class="task-section-count">${columnTasks.length}</span>
+        `;
+
+        const listEl = document.createElement('div');
+        listEl.className = 'task-section-list';
+        listEl.dataset.column = column.id;
+
+        // Quick add row
+        const quickAdd = document.createElement('button');
+        quickAdd.type = 'button';
+        quickAdd.className = 'btn-task';
+        quickAdd.style.justifyContent = 'flex-start';
+        quickAdd.dataset.action = 'quick-add';
+        quickAdd.innerHTML = `
+          <svg viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+          </svg>
+          <span>New task</span>
+        `;
+        listEl.appendChild(quickAdd);
+
+        columnTasks.forEach(task => {
+          const progressPercent = Math.min((task.completedPomodoros / task.estimatedPomodoros) * 100, 100);
+          const isCurrent = task.id === this.currentTaskId;
+          const isDone = task.isCompleted;
+          const taskClass = `task-item ${isCurrent ? 'current-task' : ''} ${isDone ? 'completed' : ''}`;
+
+          const priorityColor = task.priority === 'high'
+            ? 'var(--negative)'
+            : task.priority === 'low'
+            ? 'var(--muted)'
+            : 'var(--primary)';
+
+          const dueLabel = task.dueDate ? new Date(task.dueDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'No date';
+
+          const taskElement = document.createElement('div');
+          taskElement.className = taskClass;
+          taskElement.dataset.taskId = task.id;
+          taskElement.dataset.column = column.id;
+          taskElement.draggable = true;
+
+          const subtasksCount = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
+          const completedSubtasks = Array.isArray(task.subtasks) ? task.subtasks.filter(s => s.done).length : 0;
+
+          taskElement.innerHTML = `
+            <div style="position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:12px 0 0 12px;background:${priorityColor};opacity:0.9;"></div>
+            <div class="task-top">
+              <div class="task-name">${this.escapeHtml(task.title)}</div>
+              <div class="task-pomodoros">
+                <span>${task.completedPomodoros}</span> / <span>${task.estimatedPomodoros}</span> 🍅
+              </div>
+            </div>
+            <div class="task-progress-info">
+              <span class="task-progress-text">${isDone ? 'Completed' : Math.round(progressPercent) + '% done'}</span>
+              <div class="task-progress-bar-bg">
+                <div class="task-progress-bar ${isDone ? 'completed' : ''}" style="width: ${progressPercent}%"></div>
+              </div>
+              <span class="task-progress-text">${dueLabel}</span>
+            </div>
+            <div class="task-actions">
+              <button class="btn-task ${isCurrent ? 'active' : ''}" data-action="select">
+                ${isCurrent ? '<svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 1,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 1,1 4,12A8,8 0 0,1 12,4M11,7H13V11H17V13H13V17H11V13H7V11H11V7Z" /></svg>' : 'Focus'}
+              </button>
+              <button class="btn-task" data-action="delete">
+                <svg viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>
+              </button>
+            </div>
+            ${subtasksCount > 0 || task.notes ? `
+              <div class="task-progress-info">
+                <span class="task-progress-text">
+                  ${subtasksCount ? `${completedSubtasks}/${subtasksCount} sub-tasks` : ''}
+                  ${subtasksCount && task.notes ? ' · ' : ''}
+                  ${task.notes ? 'Has notes' : ''}
+                </span>
+              </div>
+            ` : ''}
+          `;
+
+          listEl.appendChild(taskElement);
+        });
+
+        sectionEl.appendChild(headerEl);
+        sectionEl.appendChild(listEl);
+        taskList.appendChild(sectionEl);
+      });
+
+      // Drag & drop
+      taskList.querySelectorAll('.task-item').forEach(card => {
+        card.addEventListener('dragstart', () => {
+          this.draggingTaskId = card.dataset.taskId;
+          card.style.opacity = '0.5';
+        });
+        card.addEventListener('dragend', () => {
+          this.draggingTaskId = null;
+          card.style.opacity = '';
+        });
+      });
+
+      taskList.querySelectorAll('.task-section-list').forEach(list => {
+        list.addEventListener('dragover', (e) => {
+          e.preventDefault();
+        });
+        list.addEventListener('drop', (e) => {
+          e.preventDefault();
+          if (!this.draggingTaskId) return;
+          const targetColumn = list.dataset.column;
+          const task = this.tasks.find(t => t.id === this.draggingTaskId);
+          if (!task) return;
+          task.status = targetColumn || 'todo';
+          task.order = Date.now();
+          this.saveTasks();
+          this.renderTaskList();
+        });
+      });
+
+      // Quick add handlers
+      taskList.querySelectorAll('button[data-action=\"quick-add\"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const columnId = btn.closest('.task-section-list')?.dataset.column || 'todo';
+          const title = prompt('New task title');
+          if (!title) return;
+          const now = Date.now();
+          const task = {
+            id: this.generateId(),
+            title: title.trim(),
+            estimatedPomodoros: 1,
+            completedPomodoros: 0,
+            createdAt: now,
+            isCompleted: false,
+            dueDate: null,
+            priority: 'medium',
+            status: columnId,
+            list: this.selectedList && this.selectedList !== 'all' ? this.selectedList : 'personal',
+            notes: '',
+            subtasks: [],
+            order: now
+          };
+          this.tasks.push(task);
+          this.saveTasks();
+          this.renderTaskList();
+        });
+      });
+    }
+
+    // Update task count display
+    updateTaskCount() {
+      const activeCount = this.tasks.filter(t => !t.isCompleted).length;
+      this.elements.taskCount.textContent = `${activeCount} / ${this.tasks.length}`;
+    }
+
+    // Helper to escape HTML
+    escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  }
+
+  // Initialize timer
+  document.addEventListener('DOMContentLoaded', () => {
+    const timer = new PomodoroTimer();
+
+    // Save task on input change
+    document.getElementById('taskInput').addEventListener('input', () => {
+      timer.saveTasks();
+    });
+  });
+</script>
+</body>
+</html>

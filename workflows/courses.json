@@ -1,0 +1,134 @@
+{
+    "name": "Notion Courses → Glance",
+    "nodes": [
+        {
+            "parameters": {
+                "path": "courses",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "c9f64cc0-1f0a-4cc4-a5d2-5ff6cf8eba55",
+            "name": "Webhook",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 2,
+            "position": [
+                -160,
+                80
+            ],
+            "webhookId": "courses"
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://api.notion.com/v1/databases/2446914a683281d18c6cfdab70911e47/query",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "value": "Bearer YOUR_NOTION_API_KEY"
+                        },
+                        {
+                            "name": "Notion-Version",
+                            "value": "2022-06-28"
+                        },
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": []
+                },
+                "options": {}
+            },
+            "id": "31259b52-a875-4f02-9b7b-9eeaba376931",
+            "name": "Query Notion",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                80,
+                80
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "const results = $input.first().json.results || [];\n\nconst courses = results.map(page => {\n  try {\n    const props = page.properties;\n    const name = props['Course']?.title?.[0]?.plain_text ?? 'Untitled';\n    const status = props['Status']?.status?.name ?? 'Not started';\n    const platform = props['Platform']?.multi_select?.[0]?.name ?? '—';\n    const section = props['Section']?.multi_select?.[0]?.name ?? '—';\n    const end_date = props['End Date']?.date?.start ?? '—';\n    const start_date = props['Start Date']?.date?.start ?? '—';\n    const est_time = props['Est. Time']?.formula?.string ?? '—';\n    const time_left = props['TimeLine']?.formula?.string ?? '—';\n\n    // Calculate progress from Est. Time and Time Left\n    const est_hours = parseFloat(est_time) || 0;\n    const left_hours = parseFloat(time_left) || 0;\n    const progress = est_hours > 0\n      ? Math.round(((est_hours - left_hours) / est_hours) * 100)\n      : (props['Progress']?.number ?? (status === 'Done' ? 100 : 0));\n\n    return { name, status, provider: platform, section, end_date, start_date, est_time, time_left, progress };\n  } catch(e) {\n    return { name: 'Error', status: 'Not started', provider: '—', section: '—', end_date: '—', start_date: '—', est_time: '—', time_left: '—', progress: 0 };\n  }\n});\n\nconst current = courses.find(c => c.status === 'In progress') ?? null;\nconst next = courses.find(c => c.status === 'Not started') ?? null;\nconst overall_progress = courses.length\n  ? Math.round(courses.reduce((s, c) => s + c.progress, 0) / courses.length)\n  : 0;\n\nreturn [{ json: { current_course: current, next_course: next, overall_progress, courses } }];"
+            },
+            "id": "35388448-d362-4468-9e55-0ff285011f1c",
+            "name": "Transform Data",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                320,
+                80
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ $json }}",
+                "options": {}
+            },
+            "id": "8747feae-2387-4db0-b39d-b6405fc1e9e9",
+            "name": "Respond",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                560,
+                80
+            ]
+        }
+    ],
+    "pinData": {},
+    "connections": {
+        "Webhook": {
+            "main": [
+                [
+                    {
+                        "node": "Query Notion",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Query Notion": {
+            "main": [
+                [
+                    {
+                        "node": "Transform Data",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Transform Data": {
+            "main": [
+                [
+                    {
+                        "node": "Respond",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "active": true,
+    "settings": {
+        "executionOrder": "v1",
+        "binaryMode": "separate",
+        "availableInMCP": false
+    },
+    "versionId": "10d4c7d3-448c-4cd1-a0c6-d6b36821fb1e",
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "cb5fd9a9ab4865e202132b20d8364701643975f47bfa03b9c76cb4d0ed1afdd1"
+    },
+    "id": "ISvzdt2r5VDrJZyF",
+    "tags": []
+}

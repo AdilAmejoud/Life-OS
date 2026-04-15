@@ -1,0 +1,9 @@
+secrets/.env.production
+secrets/.env.staging
+node_modules/
+.env
+*.log
+.claude-rules.md
+CONTEXT.md
+backend/task-api/core
+.~lock.*

@@ -1,0 +1,870 @@
+Raw db data: {
+  "object": "list",
+  "results": [
+    {
+      "object": "page",
+      "id": "2466914a-6832-80d8-98b4-ee952079b731",
+      "created_time": "2025-08-05T06:08:00.000Z",
+      "last_edited_time": "2026-03-04T22:32:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "cover": null,
+      "icon": {
+        "type": "file",
+        "file": {
+          "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/86531797-d181-4e09-b9c7-e55ffad64cf5/ff5e25f7-080c-4355-9953-7381dba622e7/target.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466WKEJCVEF%2F20260413%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260413T210234Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjELT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCYt94qdp2HFKVnM7rrSdrfs6ukmCXO0zXjAVW12W3ZAAIgQ9OO7z1yKQT0bm0ZgOlEKQvZq1qIDiNsyWWFMyNf6aAq%2FwMIfRAAGgw2Mzc0MjMxODM4MDUiDJd0xZq8URDIFETlZSrcA474nNq2CTWw1hEXcbydLVyYb7X72i1JG3xEyBIx3yFCY2KoF411V1s2kZuir7l7Hl7WUnKmsLn75Q122Evf8h4f4ApbBF8PDNA%2BudKU5OC9umYI9uJvb%2FVjBQ2cp7u2CDsvXJGWHaGiiW6Z67FYmvJAYM59qlO7hUkQqViq1g3TxO%2F3S2CHUxY2zbCklyIu5TJsuysFq4VSoQzYef%2BCChFt39ouIZ18XaSNm9fO%2BKas7R3Gko216g8%2Fs%2FqPQ5T%2Ffr6YOvQrqgUKhoXB8I3vKFKIIweWwMGDcoh9W4tOJ3CJwfGzK8ZnVepcXkIQRpBM2WlEDMHN3x38xBtScDxn%2BXyzYzNm4PCIasmseW51aA3XLvKZ80LXCkYUbG1AwIik1DEbIgruPJl%2Fm%2BvIsLzuzJlZhKiFy47Xh5zwxiSbKrh6pCwvQm8VjoB00uCBwHl4rMFk4wtP3lq1ux8yRPfO2Vt1QFacxgoFjySRJnWPm5MpTbTYJsyZMoCmRg%2B1jqgRvt%2FeGW6XjrX3coh0N60nSd2GIgvt2dgf5ExI%2BPZYCiEPcyd2Q9Y1o%2Fk3edfmZ7CBfLmse7nRgUrVr1VHfKPds8zUhlOP0fBDTstcJMCK2GtvFs%2BNRY3iMvOonmYCMJOX9c4GOqUB4jpGCVlTaYNPJaPOoXDhI%2B0cWHoRAthECmLnOxI3HmJIkqsBJg%2BNstjIBWa5LmNJLwaO01P1%2FilKazYZIQl1KqVmctSE1yS9ktDezK9pHpiMgKXE8UnKz9VBKoI5rjoRQ2DxK6rTWVw5TSBxRjWJksIN9%2BIpfsSw%2BntXlNoJ4vqEVf4TzI7E5MC11T1kOKbyOQGJ7x6759G7foKHLk6g2Xwp2szM&X-Amz-Signature=9883be1884eacd013ca934efced5e2e8d70f457622634cc11ce63fd7d69fb1d1&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+          "expiry_time": "2026-04-13T22:02:34.500Z"
+        }
+      },
+      "parent": {
+        "type": "database_id",
+        "database_id": "2466914a-6832-8083-a576-cc791fb27c2e"
+      },
+      "in_trash": false,
+      "is_archived": false,
+      "is_locked": false,
+      "properties": {
+        "End Date": {
+          "id": "%3AU%3Ez",
+          "type": "date",
+          "date": {
+            "start": "2026-05-09",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "TimeLine": {
+          "id": "C%3B%3BX",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "26 days left"
+          }
+        },
+        "Phase": {
+          "id": "KBvm",
+          "type": "multi_select",
+          "multi_select": [
+            {
+              "id": "WM~B",
+              "name": "1 - Introduction",
+              "color": "blue"
+            }
+          ]
+        },
+        "Start Date": {
+          "id": "LRBT",
+          "type": "date",
+          "date": {
+            "start": "2026-03-01",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "Project Manager": {
+          "id": "T%3FzY",
+          "type": "relation",
+          "relation": [
+            {
+              "id": "2576914a-6832-8019-b32b-cfe0568fa7cf"
+            },
+            {
+              "id": "2576914a-6832-8099-9d07-ca360636ca58"
+            },
+            {
+              "id": "2726914a-6832-805b-bf84-f876d30d9aab"
+            },
+            {
+              "id": "2a86914a-6832-80e9-9c9c-e410d03ba285"
+            },
+            {
+              "id": "2ab6914a-6832-8023-8feb-dcb525c529db"
+            },
+            {
+              "id": "2ab6914a-6832-8072-b7a3-ea263a66eeca"
+            },
+            {
+              "id": "32f6914a-6832-80c6-a227-e5f940eafa01"
+            }
+          ],
+          "has_more": false
+        },
+        "Status": {
+          "id": "%5EIy%5B",
+          "type": "status",
+          "status": {
+            "id": "^ax[",
+            "name": "In Progress",
+            "color": "yellow"
+          }
+        },
+        "Completion Percentage": {
+          "id": "_%5Cda",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "🟩🟩🟩🟩🟩🟩⬜⬜⬜⬜ 62%"
+          }
+        },
+        "Difficulty": {
+          "id": "bsO%3D",
+          "type": "select",
+          "select": {
+            "id": "zy?u",
+            "name": "Easy",
+            "color": "green"
+          }
+        },
+        "Number of Weeks": {
+          "id": "jkrW",
+          "type": "number",
+          "number": 10
+        },
+        "Tasks": {
+          "id": "vXvm",
+          "type": "relation",
+          "relation": [],
+          "has_more": false
+        },
+        "Phases": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Coding",
+                "link": null
+              },
+              "annotations": {
+                "bold": true,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Coding",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Coding-2466914a683280d898b4ee952079b731",
+      "public_url": null,
+      "archived": false
+    },
+    {
+      "object": "page",
+      "id": "2466914a-6832-8018-b4e0-f828237a8563",
+      "created_time": "2025-08-05T06:12:00.000Z",
+      "last_edited_time": "2026-03-04T22:32:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "cover": null,
+      "icon": {
+        "type": "file",
+        "file": {
+          "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/86531797-d181-4e09-b9c7-e55ffad64cf5/e7e20df5-683e-45cf-87a9-f606ca0d6cd6/laptop.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466WKEJCVEF%2F20260413%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260413T210234Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjELT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCYt94qdp2HFKVnM7rrSdrfs6ukmCXO0zXjAVW12W3ZAAIgQ9OO7z1yKQT0bm0ZgOlEKQvZq1qIDiNsyWWFMyNf6aAq%2FwMIfRAAGgw2Mzc0MjMxODM4MDUiDJd0xZq8URDIFETlZSrcA474nNq2CTWw1hEXcbydLVyYb7X72i1JG3xEyBIx3yFCY2KoF411V1s2kZuir7l7Hl7WUnKmsLn75Q122Evf8h4f4ApbBF8PDNA%2BudKU5OC9umYI9uJvb%2FVjBQ2cp7u2CDsvXJGWHaGiiW6Z67FYmvJAYM59qlO7hUkQqViq1g3TxO%2F3S2CHUxY2zbCklyIu5TJsuysFq4VSoQzYef%2BCChFt39ouIZ18XaSNm9fO%2BKas7R3Gko216g8%2Fs%2FqPQ5T%2Ffr6YOvQrqgUKhoXB8I3vKFKIIweWwMGDcoh9W4tOJ3CJwfGzK8ZnVepcXkIQRpBM2WlEDMHN3x38xBtScDxn%2BXyzYzNm4PCIasmseW51aA3XLvKZ80LXCkYUbG1AwIik1DEbIgruPJl%2Fm%2BvIsLzuzJlZhKiFy47Xh5zwxiSbKrh6pCwvQm8VjoB00uCBwHl4rMFk4wtP3lq1ux8yRPfO2Vt1QFacxgoFjySRJnWPm5MpTbTYJsyZMoCmRg%2B1jqgRvt%2FeGW6XjrX3coh0N60nSd2GIgvt2dgf5ExI%2BPZYCiEPcyd2Q9Y1o%2Fk3edfmZ7CBfLmse7nRgUrVr1VHfKPds8zUhlOP0fBDTstcJMCK2GtvFs%2BNRY3iMvOonmYCMJOX9c4GOqUB4jpGCVlTaYNPJaPOoXDhI%2B0cWHoRAthECmLnOxI3HmJIkqsBJg%2BNstjIBWa5LmNJLwaO01P1%2FilKazYZIQl1KqVmctSE1yS9ktDezK9pHpiMgKXE8UnKz9VBKoI5rjoRQ2DxK6rTWVw5TSBxRjWJksIN9%2BIpfsSw%2BntXlNoJ4vqEVf4TzI7E5MC11T1kOKbyOQGJ7x6759G7foKHLk6g2Xwp2szM&X-Amz-Signature=fc3d25d10de94752f7b633ce24c9a7f3bc2dd407383d6701ded176d3626d093f&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+          "expiry_time": "2026-04-13T22:02:34.501Z"
+        }
+      },
+      "parent": {
+        "type": "database_id",
+        "database_id": "2466914a-6832-8083-a576-cc791fb27c2e"
+      },
+      "in_trash": false,
+      "is_archived": false,
+      "is_locked": false,
+      "properties": {
+        "End Date": {
+          "id": "%3AU%3Ez",
+          "type": "date",
+          "date": {
+            "start": "2026-08-01",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "TimeLine": {
+          "id": "C%3B%3BX",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "27 days to start"
+          }
+        },
+        "Phase": {
+          "id": "KBvm",
+          "type": "multi_select",
+          "multi_select": [
+            {
+              "id": "mdg}",
+              "name": "2 - Fundamentals",
+              "color": "green"
+            }
+          ]
+        },
+        "Start Date": {
+          "id": "LRBT",
+          "type": "date",
+          "date": {
+            "start": "2026-05-10",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "Project Manager": {
+          "id": "T%3FzY",
+          "type": "relation",
+          "relation": [
+            {
+              "id": "2446914a-6832-8193-ac6a-ce811be0c9fb"
+            },
+            {
+              "id": "2a86914a-6832-80e9-9c9c-e410d03ba285"
+            }
+          ],
+          "has_more": false
+        },
+        "Status": {
+          "id": "%5EIy%5B",
+          "type": "status",
+          "status": {
+            "id": "OD^~",
+            "name": "Not Started",
+            "color": "gray"
+          }
+        },
+        "Completion Percentage": {
+          "id": "_%5Cda",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "Not started"
+          }
+        },
+        "Difficulty": {
+          "id": "bsO%3D",
+          "type": "select",
+          "select": {
+            "id": ">Bkz",
+            "name": "Medium",
+            "color": "yellow"
+          }
+        },
+        "Number of Weeks": {
+          "id": "jkrW",
+          "type": "number",
+          "number": 12
+        },
+        "Tasks": {
+          "id": "vXvm",
+          "type": "relation",
+          "relation": [],
+          "has_more": false
+        },
+        "Phases": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Development",
+                "link": null
+              },
+              "annotations": {
+                "bold": true,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Development",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Development-2466914a68328018b4e0f828237a8563",
+      "public_url": null,
+      "archived": false
+    },
+    {
+      "object": "page",
+      "id": "2486914a-6832-800d-bc37-f1d08fe077c7",
+      "created_time": "2025-08-07T15:59:00.000Z",
+      "last_edited_time": "2026-01-31T23:18:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "cover": null,
+      "icon": {
+        "type": "file",
+        "file": {
+          "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/86531797-d181-4e09-b9c7-e55ffad64cf5/62b3067e-fbe7-4ece-a2bf-3b79175e7ac0/layers.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466WKEJCVEF%2F20260413%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260413T210234Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjELT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCYt94qdp2HFKVnM7rrSdrfs6ukmCXO0zXjAVW12W3ZAAIgQ9OO7z1yKQT0bm0ZgOlEKQvZq1qIDiNsyWWFMyNf6aAq%2FwMIfRAAGgw2Mzc0MjMxODM4MDUiDJd0xZq8URDIFETlZSrcA474nNq2CTWw1hEXcbydLVyYb7X72i1JG3xEyBIx3yFCY2KoF411V1s2kZuir7l7Hl7WUnKmsLn75Q122Evf8h4f4ApbBF8PDNA%2BudKU5OC9umYI9uJvb%2FVjBQ2cp7u2CDsvXJGWHaGiiW6Z67FYmvJAYM59qlO7hUkQqViq1g3TxO%2F3S2CHUxY2zbCklyIu5TJsuysFq4VSoQzYef%2BCChFt39ouIZ18XaSNm9fO%2BKas7R3Gko216g8%2Fs%2FqPQ5T%2Ffr6YOvQrqgUKhoXB8I3vKFKIIweWwMGDcoh9W4tOJ3CJwfGzK8ZnVepcXkIQRpBM2WlEDMHN3x38xBtScDxn%2BXyzYzNm4PCIasmseW51aA3XLvKZ80LXCkYUbG1AwIik1DEbIgruPJl%2Fm%2BvIsLzuzJlZhKiFy47Xh5zwxiSbKrh6pCwvQm8VjoB00uCBwHl4rMFk4wtP3lq1ux8yRPfO2Vt1QFacxgoFjySRJnWPm5MpTbTYJsyZMoCmRg%2B1jqgRvt%2FeGW6XjrX3coh0N60nSd2GIgvt2dgf5ExI%2BPZYCiEPcyd2Q9Y1o%2Fk3edfmZ7CBfLmse7nRgUrVr1VHfKPds8zUhlOP0fBDTstcJMCK2GtvFs%2BNRY3iMvOonmYCMJOX9c4GOqUB4jpGCVlTaYNPJaPOoXDhI%2B0cWHoRAthECmLnOxI3HmJIkqsBJg%2BNstjIBWa5LmNJLwaO01P1%2FilKazYZIQl1KqVmctSE1yS9ktDezK9pHpiMgKXE8UnKz9VBKoI5rjoRQ2DxK6rTWVw5TSBxRjWJksIN9%2BIpfsSw%2BntXlNoJ4vqEVf4TzI7E5MC11T1kOKbyOQGJ7x6759G7foKHLk6g2Xwp2szM&X-Amz-Signature=586519606db6d6315d07c41dbe13140eb039c9faea548f8555bbb6face7b15a9&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+          "expiry_time": "2026-04-13T22:02:34.501Z"
+        }
+      },
+      "parent": {
+        "type": "database_id",
+        "database_id": "2466914a-6832-8083-a576-cc791fb27c2e"
+      },
+      "in_trash": false,
+      "is_archived": false,
+      "is_locked": false,
+      "properties": {
+        "End Date": {
+          "id": "%3AU%3Ez",
+          "type": "date",
+          "date": {
+            "start": "2026-09-12",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "TimeLine": {
+          "id": "C%3B%3BX",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "83 days to start"
+          }
+        },
+        "Phase": {
+          "id": "KBvm",
+          "type": "multi_select",
+          "multi_select": [
+            {
+              "id": "]Ncy",
+              "name": "3 - Application",
+              "color": "yellow"
+            }
+          ]
+        },
+        "Start Date": {
+          "id": "LRBT",
+          "type": "date",
+          "date": {
+            "start": "2026-07-05",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "Project Manager": {
+          "id": "T%3FzY",
+          "type": "relation",
+          "relation": [],
+          "has_more": false
+        },
+        "Status": {
+          "id": "%5EIy%5B",
+          "type": "status",
+          "status": {
+            "id": "OD^~",
+            "name": "Not Started",
+            "color": "gray"
+          }
+        },
+        "Completion Percentage": {
+          "id": "_%5Cda",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "Not started"
+          }
+        },
+        "Difficulty": {
+          "id": "bsO%3D",
+          "type": "select",
+          "select": {
+            "id": "AX[p",
+            "name": "Hard",
+            "color": "red"
+          }
+        },
+        "Number of Weeks": {
+          "id": "jkrW",
+          "type": "number",
+          "number": 10
+        },
+        "Tasks": {
+          "id": "vXvm",
+          "type": "relation",
+          "relation": [],
+          "has_more": false
+        },
+        "Phases": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Software Practices",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Software Practices",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Software-Practices-2486914a6832800dbc37f1d08fe077c7",
+      "public_url": null,
+      "archived": false
+    },
+    {
+      "object": "page",
+      "id": "2486914a-6832-80e0-ad46-e11470bcad25",
+      "created_time": "2025-08-07T16:01:00.000Z",
+      "last_edited_time": "2026-01-31T23:19:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "cover": null,
+      "icon": {
+        "type": "file",
+        "file": {
+          "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/86531797-d181-4e09-b9c7-e55ffad64cf5/11bf9ec9-46ab-447d-9c14-b4e4ef26afe8/crane.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466WKEJCVEF%2F20260413%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260413T210234Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjELT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCYt94qdp2HFKVnM7rrSdrfs6ukmCXO0zXjAVW12W3ZAAIgQ9OO7z1yKQT0bm0ZgOlEKQvZq1qIDiNsyWWFMyNf6aAq%2FwMIfRAAGgw2Mzc0MjMxODM4MDUiDJd0xZq8URDIFETlZSrcA474nNq2CTWw1hEXcbydLVyYb7X72i1JG3xEyBIx3yFCY2KoF411V1s2kZuir7l7Hl7WUnKmsLn75Q122Evf8h4f4ApbBF8PDNA%2BudKU5OC9umYI9uJvb%2FVjBQ2cp7u2CDsvXJGWHaGiiW6Z67FYmvJAYM59qlO7hUkQqViq1g3TxO%2F3S2CHUxY2zbCklyIu5TJsuysFq4VSoQzYef%2BCChFt39ouIZ18XaSNm9fO%2BKas7R3Gko216g8%2Fs%2FqPQ5T%2Ffr6YOvQrqgUKhoXB8I3vKFKIIweWwMGDcoh9W4tOJ3CJwfGzK8ZnVepcXkIQRpBM2WlEDMHN3x38xBtScDxn%2BXyzYzNm4PCIasmseW51aA3XLvKZ80LXCkYUbG1AwIik1DEbIgruPJl%2Fm%2BvIsLzuzJlZhKiFy47Xh5zwxiSbKrh6pCwvQm8VjoB00uCBwHl4rMFk4wtP3lq1ux8yRPfO2Vt1QFacxgoFjySRJnWPm5MpTbTYJsyZMoCmRg%2B1jqgRvt%2FeGW6XjrX3coh0N60nSd2GIgvt2dgf5ExI%2BPZYCiEPcyd2Q9Y1o%2Fk3edfmZ7CBfLmse7nRgUrVr1VHfKPds8zUhlOP0fBDTstcJMCK2GtvFs%2BNRY3iMvOonmYCMJOX9c4GOqUB4jpGCVlTaYNPJaPOoXDhI%2B0cWHoRAthECmLnOxI3HmJIkqsBJg%2BNstjIBWa5LmNJLwaO01P1%2FilKazYZIQl1KqVmctSE1yS9ktDezK9pHpiMgKXE8UnKz9VBKoI5rjoRQ2DxK6rTWVw5TSBxRjWJksIN9%2BIpfsSw%2BntXlNoJ4vqEVf4TzI7E5MC11T1kOKbyOQGJ7x6759G7foKHLk6g2Xwp2szM&X-Amz-Signature=d30a1c9d5856096414b2f6e292ad4210ca1f0fdfe6963d09fa442a86f581ef3f&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+          "expiry_time": "2026-04-13T22:02:34.501Z"
+        }
+      },
+      "parent": {
+        "type": "database_id",
+        "database_id": "2466914a-6832-8083-a576-cc791fb27c2e"
+      },
+      "in_trash": false,
+      "is_archived": false,
+      "is_locked": false,
+      "properties": {
+        "End Date": {
+          "id": "%3AU%3Ez",
+          "type": "date",
+          "date": {
+            "start": "2026-11-21",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "TimeLine": {
+          "id": "C%3B%3BX",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "153 days to start"
+          }
+        },
+        "Phase": {
+          "id": "KBvm",
+          "type": "multi_select",
+          "multi_select": [
+            {
+              "id": "sZCr",
+              "name": "4 - Integration",
+              "color": "orange"
+            }
+          ]
+        },
+        "Start Date": {
+          "id": "LRBT",
+          "type": "date",
+          "date": {
+            "start": "2026-09-13",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "Project Manager": {
+          "id": "T%3FzY",
+          "type": "relation",
+          "relation": [
+            {
+              "id": "3326914a-6832-807d-9c8a-c4feb4addd1d"
+            }
+          ],
+          "has_more": false
+        },
+        "Status": {
+          "id": "%5EIy%5B",
+          "type": "status",
+          "status": {
+            "id": "OD^~",
+            "name": "Not Started",
+            "color": "gray"
+          }
+        },
+        "Completion Percentage": {
+          "id": "_%5Cda",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "Not started"
+          }
+        },
+        "Difficulty": {
+          "id": "bsO%3D",
+          "type": "select",
+          "select": {
+            "id": "AX[p",
+            "name": "Hard",
+            "color": "red"
+          }
+        },
+        "Number of Weeks": {
+          "id": "jkrW",
+          "type": "number",
+          "number": 10
+        },
+        "Tasks": {
+          "id": "vXvm",
+          "type": "relation",
+          "relation": [],
+          "has_more": false
+        },
+        "Phases": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "System Design",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "System Design",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/System-Design-2486914a683280e0ad46e11470bcad25",
+      "public_url": null,
+      "archived": false
+    },
+    {
+      "object": "page",
+      "id": "2486914a-6832-805c-b3de-eddb57797930",
+      "created_time": "2025-08-07T16:02:00.000Z",
+      "last_edited_time": "2026-01-31T23:19:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "cover": null,
+      "icon": {
+        "type": "file",
+        "file": {
+          "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/86531797-d181-4e09-b9c7-e55ffad64cf5/3bb08ff4-1f44-4341-8595-c7bbbfba85c3/rocket_%281%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466WKEJCVEF%2F20260413%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260413T210234Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjELT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCYt94qdp2HFKVnM7rrSdrfs6ukmCXO0zXjAVW12W3ZAAIgQ9OO7z1yKQT0bm0ZgOlEKQvZq1qIDiNsyWWFMyNf6aAq%2FwMIfRAAGgw2Mzc0MjMxODM4MDUiDJd0xZq8URDIFETlZSrcA474nNq2CTWw1hEXcbydLVyYb7X72i1JG3xEyBIx3yFCY2KoF411V1s2kZuir7l7Hl7WUnKmsLn75Q122Evf8h4f4ApbBF8PDNA%2BudKU5OC9umYI9uJvb%2FVjBQ2cp7u2CDsvXJGWHaGiiW6Z67FYmvJAYM59qlO7hUkQqViq1g3TxO%2F3S2CHUxY2zbCklyIu5TJsuysFq4VSoQzYef%2BCChFt39ouIZ18XaSNm9fO%2BKas7R3Gko216g8%2Fs%2FqPQ5T%2Ffr6YOvQrqgUKhoXB8I3vKFKIIweWwMGDcoh9W4tOJ3CJwfGzK8ZnVepcXkIQRpBM2WlEDMHN3x38xBtScDxn%2BXyzYzNm4PCIasmseW51aA3XLvKZ80LXCkYUbG1AwIik1DEbIgruPJl%2Fm%2BvIsLzuzJlZhKiFy47Xh5zwxiSbKrh6pCwvQm8VjoB00uCBwHl4rMFk4wtP3lq1ux8yRPfO2Vt1QFacxgoFjySRJnWPm5MpTbTYJsyZMoCmRg%2B1jqgRvt%2FeGW6XjrX3coh0N60nSd2GIgvt2dgf5ExI%2BPZYCiEPcyd2Q9Y1o%2Fk3edfmZ7CBfLmse7nRgUrVr1VHfKPds8zUhlOP0fBDTstcJMCK2GtvFs%2BNRY3iMvOonmYCMJOX9c4GOqUB4jpGCVlTaYNPJaPOoXDhI%2B0cWHoRAthECmLnOxI3HmJIkqsBJg%2BNstjIBWa5LmNJLwaO01P1%2FilKazYZIQl1KqVmctSE1yS9ktDezK9pHpiMgKXE8UnKz9VBKoI5rjoRQ2DxK6rTWVw5TSBxRjWJksIN9%2BIpfsSw%2BntXlNoJ4vqEVf4TzI7E5MC11T1kOKbyOQGJ7x6759G7foKHLk6g2Xwp2szM&X-Amz-Signature=8bc9aeec127e8699c33ceffef836249c3bb466da4c6843f40bd34cb7e5966f6d&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+          "expiry_time": "2026-04-13T22:02:34.501Z"
+        }
+      },
+      "parent": {
+        "type": "database_id",
+        "database_id": "2466914a-6832-8083-a576-cc791fb27c2e"
+      },
+      "in_trash": false,
+      "is_archived": false,
+      "is_locked": false,
+      "properties": {
+        "End Date": {
+          "id": "%3AU%3Ez",
+          "type": "date",
+          "date": {
+            "start": "2027-03-06",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "TimeLine": {
+          "id": "C%3B%3BX",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "223 days to start"
+          }
+        },
+        "Phase": {
+          "id": "KBvm",
+          "type": "multi_select",
+          "multi_select": [
+            {
+              "id": "n}Cm",
+              "name": "5 - Mastery",
+              "color": "red"
+            }
+          ]
+        },
+        "Start Date": {
+          "id": "LRBT",
+          "type": "date",
+          "date": {
+            "start": "2026-11-22",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "Project Manager": {
+          "id": "T%3FzY",
+          "type": "relation",
+          "relation": [],
+          "has_more": false
+        },
+        "Status": {
+          "id": "%5EIy%5B",
+          "type": "status",
+          "status": {
+            "id": "OD^~",
+            "name": "Not Started",
+            "color": "gray"
+          }
+        },
+        "Completion Percentage": {
+          "id": "_%5Cda",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "Not started"
+          }
+        },
+        "Difficulty": {
+          "id": "bsO%3D",
+          "type": "select",
+          "select": {
+            "id": "BK}<",
+            "name": "Very Hard",
+            "color": "purple"
+          }
+        },
+        "Number of Weeks": {
+          "id": "jkrW",
+          "type": "number",
+          "number": 15
+        },
+        "Tasks": {
+          "id": "vXvm",
+          "type": "relation",
+          "relation": [],
+          "has_more": false
+        },
+        "Phases": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Advanced Topics",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Advanced Topics",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Advanced-Topics-2486914a6832805cb3deeddb57797930",
+      "public_url": null,
+      "archived": false
+    },
+    {
+      "object": "page",
+      "id": "2486914a-6832-8069-ae0f-c4ba5f8fbee9",
+      "created_time": "2025-08-07T16:03:00.000Z",
+      "last_edited_time": "2026-01-31T23:20:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f4276ec4-3dfe-4685-8d93-aa0d941989c3"
+      },
+      "cover": null,
+      "icon": {
+        "type": "icon",
+        "icon": {
+          "name": "stairs",
+          "color": "gray"
+        }
+      },
+      "parent": {
+        "type": "database_id",
+        "database_id": "2466914a-6832-8083-a576-cc791fb27c2e"
+      },
+      "in_trash": false,
+      "is_archived": false,
+      "is_locked": false,
+      "properties": {
+        "End Date": {
+          "id": "%3AU%3Ez",
+          "type": "date",
+          "date": {
+            "start": "2027-04-03",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "TimeLine": {
+          "id": "C%3B%3BX",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "328 days to start"
+          }
+        },
+        "Phase": {
+          "id": "KBvm",
+          "type": "multi_select",
+          "multi_select": [
+            {
+              "id": "}[N>",
+              "name": "Review",
+              "color": "purple"
+            },
+            {
+              "id": "@qng",
+              "name": "Buffer",
+              "color": "gray"
+            }
+          ]
+        },
+        "Start Date": {
+          "id": "LRBT",
+          "type": "date",
+          "date": {
+            "start": "2027-03-07",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "Project Manager": {
+          "id": "T%3FzY",
+          "type": "relation",
+          "relation": [],
+          "has_more": false
+        },
+        "Status": {
+          "id": "%5EIy%5B",
+          "type": "status",
+          "status": {
+            "id": "OD^~",
+            "name": "Not Started",
+            "color": "gray"
+          }
+        },
+        "Completion Percentage": {
+          "id": "_%5Cda",
+          "type": "formula",
+          "formula": {
+            "type": "string",
+            "string": "Not started"
+          }
+        },
+        "Difficulty": {
+          "id": "bsO%3D",
+          "type": "select",
+          "select": {
+            "id": "IwNh",
+            "name": "Very Easy",
+            "color": "blue"
+          }
+        },
+        "Number of Weeks": {
+          "id": "jkrW",
+          "type": "number",
+          "number": 4
+        },
+        "Tasks": {
+          "id": "vXvm",
+          "type": "relation",
+          "relation": [],
+          "has_more": false
+        },
+        "Phases": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Buffer/Review",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Buffer/Review",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Buffer-Review-2486914a68328069ae0fc4ba5f8fbee9",
+      "public_url": null,
+      "archived": false
+    }
+  ],
+  "next_cursor": null,
+  "has_more": false,
+  "type": "page_or_database",
+  "page_or_database": {},
+  "request_id": "18b2efce-806e-4220-a435-89cbfdb045d5"
+}

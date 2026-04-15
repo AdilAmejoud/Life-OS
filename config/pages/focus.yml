@@ -1,0 +1,12 @@
+##############################################################
+# focus.yml — Focus Timer Page
+# Uses iframe to embed the custom Focus timer
+##############################################################
+
+columns:
+  - size: full
+    widgets:
+      - type: iframe
+        source: http://localhost:3800/
+        height: 900
+        title: "Focus"

@@ -1,0 +1,11 @@
+##############################################################
+# ai-assistant.yml — AI Assistant page
+##############################################################
+
+columns:
+  - size: full
+    widgets:
+      - type: iframe
+        title: "🤖 AI Assistant"
+        source: http://localhost:3700
+        height: 800

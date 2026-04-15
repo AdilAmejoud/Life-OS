@@ -1,0 +1,7 @@
+columns:
+  - size: full
+    widgets:
+      - type: iframe
+        source: http://localhost:3900
+        title: Super Productivity
+        height: 900
