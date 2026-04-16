@@ -12,11 +12,11 @@ services:
       - 8.8.8.8
       - 8.8.4.4
     env_file:
-      - secrets/.env.production
+      - .secrets/.env.production
     restart: unless-stopped
     volumes:
       - ./config:/app/config
-      - ./frontend:/app/assets
+      - ./config/assets:/app/assets
       - /etc/localtime:/etc/localtime:ro
     ports:
       - 8090:8080
@@ -31,11 +31,11 @@ services:
     container_name: notion-proxy
     image: node:20-alpine
     env_file:
-      - secrets/.env.production
+      - .secrets/.env.production
     restart: unless-stopped
     working_dir: /app
     volumes:
-      - ./backend/notion-proxy:/app
+      - ./apps/notion-proxy/backend:/app
     command: node server.js
     ports:
       - 3456:3456
@@ -46,7 +46,7 @@ services:
     container_name: n8n
     image: docker.n8n.io/n8nio/n8n
     env_file:
-      - secrets/.env.production
+      - .secrets/.env.production
     restart: unless-stopped
     dns:
       - 8.8.8.8
@@ -69,12 +69,12 @@ services:
     container_name: ai-assistant
     image: node:20-alpine
     env_file:
-      - secrets/.env.production
+      - .secrets/.env.production
     restart: unless-stopped
     working_dir: /app
     volumes:
-      - ./backend/ai-assistant:/app
-      - ./frontend/pages/ai:/app/frontend/pages/ai
+      - ./apps/ai-assistant/backend:/app
+      - ./apps/ai-assistant/frontend:/app/frontend
       - ai-assistant_data:/app/data
     command: sh -c "npm install sqlite3 && node server.js"
     ports:
@@ -88,38 +88,18 @@ services:
     networks:
       - life-os
 
-  nexus:
-    container_name: nexus
-    image: node:20-slim
-    env_file:
-      - secrets/.env.production
-    restart: unless-stopped
-    working_dir: /app
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
-    volumes:
-      - ./backend/nexus:/app
-      - nexus_data:/app/data
-    command: sh -c "apt-get update && apt-get install -y python3 make g++ && npm install --build-from-source && node server.js"
-    ports:
-      - 3850:3850
-    environment:
-      - NEXUS_PORT=3850
-      - NEXUS_DB_PATH=/app/data/nexus.db
-    networks:
-      - life-os
+
 
   pomodoro:
     container_name: pomodoro
     image: node:20-alpine
     env_file:
-      - secrets/.env.production
+      - .secrets/.env.production
     restart: unless-stopped
     working_dir: /app
     volumes:
-      - ./backend/pomodoro/server.js:/app/server.js
-      - ./frontend/pages/pomodoro-app/dist:/app/dist
+      - ./apps/pomodoro/backend/server.js:/app/server.js
+      - ./apps/pomodoro/frontend/dist:/app/dist
     command: node server.js
     ports:
       - 3800:3800
@@ -130,13 +110,12 @@ services:
     container_name: task-api
     image: node:20-slim
     env_file:
-      - secrets/.env.production
+      - .secrets/.env.production
     restart: unless-stopped
     working_dir: /app
     volumes:
-      - ./backend/task-api:/app
-      - ./backend/shared:/app/assets
-      - ./frontend/pages/task-app:/app/assets/task-app
+      - ./apps/task-manager/backend:/app
+      - ./shared:/app/assets
     command: sh -c "apt-get update && apt-get install -y python3 make g++ && npm install --build-from-source && npm start"
     ports:
       - 3100:3100
@@ -152,7 +131,7 @@ services:
     restart: unless-stopped
     working_dir: /app
     volumes:
-      - ./backend/youtube-proxy:/app
+      - ./apps/youtube-proxy/backend:/app
     command: node server.js
     ports:
       - 3704:3704
@@ -164,14 +143,14 @@ services:
     container_name: life-os-content-api
     working_dir: /app
     volumes:
-      - ./backend/content-api:/app
+      - ./apps/content-api/backend:/app
       - ./config/content-data.json:/app/data/content-data.json
     ports:
       - "3950:3950"
     command: node content-api-server.js
     restart: unless-stopped
     env_file:
-      - ./secrets/.env.production
+      - .secrets/.env.production
     networks:
       - life-os
 
@@ -182,9 +161,9 @@ services:
     working_dir: /app
     volumes:
       # Map the build folder
-      - ./super-productivity/.tmp/angular-dist:/app/dist 
+      - ./external/super-productivity/.tmp/angular-dist:/app/dist 
       # FIX: Updated path to match where you created the file
-      - ./backend/super-productivity/super-prod-server.js:/app/server.js
+      - ./apps/super-productivity/backend/super-prod-server.js:/app/server.js
     command: sh -c "npm install express && node server.js"
     ports:
       - 3900:3900
@@ -198,4 +177,3 @@ networks:
 volumes:
   n8n_data:
   ai-assistant_data:
-  nexus_data:
