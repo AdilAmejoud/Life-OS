@@ -3,7 +3,7 @@
  * Extracts, stores, and manages tasks from conversations.
  */
 
-const db = require('./db');
+const db = require('./index');
 
 /**
  * Extract tasks from a message using pattern matching and AI hints

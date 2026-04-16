@@ -10,7 +10,7 @@ const path = require('path');
 const { exec } = require('child_process');
 const util = require('util');
 const execPromise = util.promisify(exec);
-const db = require('./db');
+const db = require('../db');
 
 // Tool registry
 const tools = new Map();

@@ -3,7 +3,7 @@ const {
     createSkill: createSkillInDb,
     updateSkill: updateSkillInDb,
     logSkillUsage
-} = require('./db').crud;
+} = require('./index').crud;
 const vm = require('vm');
 
 /**

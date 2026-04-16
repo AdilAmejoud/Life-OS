@@ -14,8 +14,8 @@
 
 'use strict';
 
-const openrouter = require('./openrouter');
-const mcp = require('../mcp');
+const openrouter = require('../integrations/openrouter');
+const mcp = require('../integrations/mcp');
 
 const MAX_STEPS_DEFAULT = 6;
 

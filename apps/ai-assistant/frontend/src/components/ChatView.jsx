@@ -291,6 +291,27 @@ function MessageItem({ msg, showToast, onRetry, isStreamingTarget }) {
   );
 }
 
+// ─── Thinking Indicator ──────────────────────────────────────────────────────────
+function ThinkingIndicator() {
+  return (
+    <div className="flex w-full justify-start mb-7 animate-in fade-in zoom-in-95 duration-300">
+      <div className="flex max-w-[80%] gap-3 flex-row">
+        <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-[2px]">
+          <AnimatedOrb className="w-8 h-8 shrink-0" size={32} />
+        </div>
+        <div className="flex flex-col min-w-0 items-start">
+          <span className="msg-role-label nexus-label">NEXUS</span>
+          <div className="flex gap-1.5 items-center px-2 py-3 mt-1">
+            <span className="w-2 h-2 rounded-full bg-text-muted/50 animate-bounce [animation-delay:-0.3s]"></span>
+            <span className="w-2 h-2 rounded-full bg-text-muted/50 animate-bounce [animation-delay:-0.15s]"></span>
+            <span className="w-2 h-2 rounded-full bg-text-muted/50 animate-bounce"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Tool Progress Card ────────────────────────────────────────────────────────
 const TOOL_ICONS = {
   web_search:     '🔍',
@@ -388,6 +409,7 @@ export default function ChatView({
   models, showToast, conversations,
   currentConversationId,
   panelOpen, setPanelOpen, setCurrentView,
+  toolSteps,
 }) {
   const bottomRef = useRef(null);
   const chatWrapperRef = useRef(null);

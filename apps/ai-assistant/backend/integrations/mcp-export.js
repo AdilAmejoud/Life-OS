@@ -6,7 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const db = require('./db');
+const db = require('../db');
 
 // MCP Schema version
 const MCP_VERSION = '1.0.0';

@@ -3,9 +3,9 @@
  * Coordinates multi-tool orchestration for complex task execution.
  */
 
-const db = require('./db');
-const mcp = require('./mcp');
-const skills = require('./skills');
+const db = require('../db');
+const mcp = require('../integrations/mcp');
+const skills = require('../db/skills');
 
 /**
  * Tool orchestration result

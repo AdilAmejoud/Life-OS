@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-const DB_PATH = process.env.AI_ASSISTANT_DB_PATH || path.join(__dirname, 'data', 'conversations.db');
+const DB_PATH = process.env.AI_ASSISTANT_DB_PATH || path.join(__dirname, '..', 'data', 'conversations.db');
 
 // Ensure data directory exists
 const fs = require('fs');

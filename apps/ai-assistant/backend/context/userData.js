@@ -1,6 +1,6 @@
 const {
     crud
-} = require('./db');
+} = require('../db');
 
 /**
  * Lists all user data, optionally filtered by category.
