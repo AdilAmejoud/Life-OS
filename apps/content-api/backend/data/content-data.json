@@ -1,0 +1,75 @@
+{
+  "platforms": {
+    "youtube":   { "followers": 0, "posts": 0, "reach": "—", "trend": "+0" },
+    "instagram": { "followers": 0, "posts": 0, "reach": "—", "trend": "+0" },
+    "linkedin":  { "followers": 0, "posts": 0, "reach": "—", "trend": "+0" },
+    "medium":    { "followers": 0, "posts": 0, "reach": "—", "trend": "+0" },
+    "blog":      { "followers": 0, "posts": 0, "reach": "—", "trend": "+0" }
+  },
+  "items": [
+    {
+      "id": "1",
+      "title": "Life_OS v2 — full Docker walkthrough",
+      "type": "video",
+      "platform": "youtube",
+      "status": "scripting",
+      "source": "project",
+      "related_project": "life-os-v2",
+      "publish_date": null,
+      "updated": "2026-03-31"
+    },
+    {
+      "id": "2",
+      "title": "n8n + Notion automation guide",
+      "type": "article",
+      "platform": "linkedin",
+      "status": "idea",
+      "source": "project",
+      "related_project": "life-os-v2",
+      "publish_date": null,
+      "updated": "2026-03-31"
+    },
+    {
+      "id": "3",
+      "title": "HaqqiAI hackathon recap",
+      "type": "article",
+      "platform": "medium",
+      "status": "ready_to_publish",
+      "source": "project",
+      "related_project": "haqqiai",
+      "publish_date": "2026-04-02",
+      "updated": "2026-03-30"
+    },
+    {
+      "id": "4",
+      "title": "GSoC 2026 proposal breakdown",
+      "type": "post",
+      "platform": "linkedin",
+      "status": "published",
+      "source": "project",
+      "related_project": "gsoc-2026",
+      "publish_date": "2026-03-31",
+      "updated": "2026-03-31"
+    }
+  ],
+  "ideas": [
+    { "text": "Docker for students — zero to container in 20 mins", "source": "learning" },
+    { "text": "CI/CD pipeline with GitHub Actions — my first one", "source": "project" },
+    { "text": "What I learned from HaqqiAI hackathon mistakes", "source": "project" },
+    { "text": "How to structure a GSoC proposal as a first-year student", "source": "manual" },
+    { "text": "NEXUS — building your own AI assistant dashboard", "source": "project" }
+  ],
+  "analytics": {
+    "weekly_views": 0,
+    "followers_growth": "+0",
+    "published_this_week": 1,
+    "best_platform": "linkedin",
+    "best_topic": "DevOps / automation"
+  },
+  "intelligence": {
+    "best_topic": "DevOps automation",
+    "best_format": "Short posts (< 300 words)",
+    "pipeline_health": "3 items in pipeline — publish HaqqiAI next",
+    "recommendation": "You have 1 ready-to-publish item. Post it before adding more to scripting."
+  }
+}
