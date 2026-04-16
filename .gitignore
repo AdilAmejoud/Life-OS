@@ -1,5 +1,5 @@
-secrets/.env.production
-secrets/.env.staging
+.secrets/.env.production
+.secrets/.env.staging
 node_modules/
 .env
 *.log
@@ -7,3 +7,5 @@ node_modules/
 CONTEXT.md
 backend/task-api/core
 .~lock.*
+.secrets/.env.production
+apps/task-manager/frontend/dist
